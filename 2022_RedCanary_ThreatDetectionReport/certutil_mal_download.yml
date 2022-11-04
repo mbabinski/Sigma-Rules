@@ -1,0 +1,25 @@
+title: CertUtil Downloading Malicious Binaries
+id: b7bfe106-4c22-4ced-82da-b12c39bef679
+status: test
+description: Detects usage of certutil to download malicious code. Inspired by the
+    2022 Red Canary Threat Detection report.
+references:
+    - https://redcanary.com/threat-detection-report/techniques/ingress-tool-transfer/
+author: Micah Babinski
+date: 2022/11/03
+tags:
+    - attack.command_and_control
+    - attack.t1105
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        Image|endswith: '\certutil.exe'
+        CommandLine|contains|all:
+            - 'urlcache'
+            - 'split'
+    condition: selection
+falsepositives:
+    - Unknown
+level: high

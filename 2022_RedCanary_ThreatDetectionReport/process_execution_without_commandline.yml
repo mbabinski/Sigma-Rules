@@ -1,0 +1,35 @@
+title: Process Execution sans Command Lines
+id: e0a2f82f-d11d-4ea7-af7e-a8f760b07c04
+status: test
+description: Looks for process execution with no command line arguments, which may
+    indicate process injection. Inspired by the 2022 Red Canary Threat Detection report.
+references:
+    - https://redcanary.com/threat-detection-report/techniques/process-injection/
+author: Micah Babinski
+date: 2022/11/03
+tags:
+    - attack.privilege_escalation
+    - attack.t1055
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        Image|endswith:
+            - '\backgroundtaskhost.exe'
+            - '\svchost.exe'
+            - '\dllhost.exe'
+            - '\werfault.exe'
+            - '\searchprotocolhost.exe'
+            - '\wuauclt.exe'
+            - '\spoolsv.exe'
+            - '\rundll32.exe'
+            - '\regasm.exe'
+            - '\regsvr32.exe'
+            - '\regsvcs.exe'
+        # looks for command line values ending with exe or exe" and no other characters following
+        CommandLine|re: '^.*\.exe(\s|")*$'
+    condition: selection
+falsepositives:
+    - Unknown
+level: high

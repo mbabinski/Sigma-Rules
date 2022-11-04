@@ -1,0 +1,25 @@
+title: Command Shell Bypassing Security Controls
+id: 188b256a-4344-47fb-88ed-6343b37c4999
+status: test
+description: Detects common ways to bypass controls using Windows Command Shell. Inspired
+    by the 2022 Red Canary Threat Detection report.
+references:
+    - https://redcanary.com/threat-detection-report/techniques/windows-command-shell/
+author: Micah Babinski
+date: 2022/11/03
+tags:
+    - attack.execution
+    - attack.t1059.003
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        Image|endswith: '\cmd.exe'
+        CommandLine|contains|windash:
+            - 'bypass'
+            - '-exec'
+    condition: selection
+falsepositives:
+    - Unknown
+level: high

@@ -1,0 +1,22 @@
+title: PowerShell Injecting into Other Process
+id: 95d5a93d-b755-4443-87d2-48125a4172ac
+status: test
+description: Looks for process access activity where PowerShell is accessing any other
+    processes. Inspired by the 2022 Red Canary Threat Detection report.
+references:
+    - https://redcanary.com/threat-detection-report/techniques/process-injection/
+author: Micah Babinski
+date: 2022/11/03
+tags:
+    - attack.privilege_escalation
+    - attack.t1055
+logsource:
+    category: process_access
+    product: windows
+detection:
+    selection:
+        SourceImage|endswith: '\powershell.exe'
+    condition: selection
+falsepositives:
+    - Unknown
+level: high

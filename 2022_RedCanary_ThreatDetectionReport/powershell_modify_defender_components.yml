@@ -1,0 +1,32 @@
+title: Abusing PowerShell to Modify Defender Components
+id: bb193057-4917-427f-887c-1d2615394935
+status: test
+description: Looks for instances of powershell being used to modify or degrade Windows
+    Defender functionality. Inspired by the 2022 Red Canary Threat Detection report.
+references:
+    - https://redcanary.com/threat-detection-report/techniques/disable-or-modify-tools/
+author: Micah Babinski
+date: 2022/11/04
+tags:
+    - attack.defense_evasion
+    - attack.t1562
+    - attack.t1562.001
+    - attack.t1562.004
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        Image|endswith: '\powershell.exe'
+        CommandLine|contains: 'Add-MpPreference'
+    selection2:
+        CommandLine|contains:
+            - 'dll'
+            - 'vbs'
+            - 'zip'
+            - '.bat'
+            - 'iso'
+    condition: selection and selection2
+falsepositives:
+    - Unknown
+level: high

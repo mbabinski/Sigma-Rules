@@ -1,0 +1,36 @@
+title: Command Shell Unusual or Suspicious Process Ancestry
+id: 157c153a-97d1-43e4-bc25-5461f52c935d
+status: test
+description: Looks for suspicious process interactions between the Windows IIS worker
+    process (w3wp.exe) and the command shell. Inspired by the 2022 Red Canary Threat
+    Detection report.
+references:
+    - https://redcanary.com/threat-detection-report/techniques/windows-command-shell/
+author: Micah Babinski
+date: 2022/11/03
+tags:
+    - attack.persistence
+    - attack.t1505
+    - attack.execution
+    - attack.t1059.003
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection_process:
+        Image|endswith: '\cmd.exe'
+        ParentImage|endswith:
+            - '\w3wp.exe'
+            - '\wmiprvse.exe'
+    selection_cmdline:
+        - CommandLine|contains:
+                - 'http://'
+                - 'https://'
+                - 'echo'
+        - CommandLine|contains|all:
+                - '/c'
+                - 'powershell.exe'
+    condition: selection_process and selection_cmdline
+falsepositives:
+    - Unknown
+level: high

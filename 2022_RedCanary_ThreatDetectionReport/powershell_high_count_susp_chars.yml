@@ -1,0 +1,26 @@
+title: Powershell Obfuscation and Escape Characters
+id: bb1e6157-bc60-41fc-a395-513ed538fabe
+status: test
+description: Looks for the execution of PowerShell with unusually high counts of characters
+    like ^, +, $, and %. Inspired by the 2022 Red Canary Threat Detection report.
+references:
+    - https://redcanary.com/threat-detection-report/techniques/powershell/
+author: Micah Babinski
+date: 2022/11/03
+tags:
+    - attack.execution
+    - attack.t1059.003
+    - attack.defense_evasion
+    - attack.t1027
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        Image|endswith: '\powershell.exe'
+        # regex below detects five or more occurrences of the suspicious characters
+        CommandLine|re: '^([^^+$%]*[\^+$%]){5,}[^^+$%]*$'
+    condition: selection
+falsepositives:
+    - Unknown
+level: high

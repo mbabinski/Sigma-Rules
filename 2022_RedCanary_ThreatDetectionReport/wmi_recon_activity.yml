@@ -1,0 +1,28 @@
+title: WMIC Suspicious Commands
+id: 21a5815b-5db5-4e13-99e4-052ae6bbcdc1
+status: test
+description: Detects adversaries leveraging WMI to gather domain information such
+    as users, groups, AV product in use, or computers in the domain. Inspired by the
+    2022 Red Canary Threat Detection report.
+references:
+    - https://redcanary.com/threat-detection-report/techniques/windows-management-instrumentation/
+author: Micah Babinski
+date: 2022/11/03
+tags:
+    - attack.execution
+    - attack.t1047
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        Image|endswith: '\wmic.exe'
+        CommandLine|contains:
+            - '\ldap'
+            - 'ntdomain'
+            - 'antivirusproduct'
+            - 'useraccount get'
+    condition: selection
+falsepositives:
+    - Unknown
+level: medium

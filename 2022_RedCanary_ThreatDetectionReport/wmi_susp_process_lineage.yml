@@ -1,0 +1,28 @@
+title: WMIC Suspicious Commands
+id: 9c3367de-94fd-4a46-bc9f-d2943bd32025
+status: test
+description: Detects suspicious parent-child relationships with the wmiprvse command.
+    Inspired by the 2022 Red Canary Threat Detection report.
+references:
+    - https://redcanary.com/threat-detection-report/techniques/windows-management-instrumentation/
+author: Micah Babinski
+date: 2022/11/03
+tags:
+    - attack.execution
+    - attack.t1047
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        ParentImage|endswith: '\wmiprvse.exe'
+        Image|endswith:
+            - '\rundll32.exe'
+            - '\msbuild.exe'
+            - '\powershell.exe'
+            - '\cmd.exe'
+            - '\mshta.exe'
+    condition: selection
+falsepositives:
+    - Unknown
+level: medium

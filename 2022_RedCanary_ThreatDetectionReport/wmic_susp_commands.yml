@@ -1,0 +1,28 @@
+title: WMIC Suspicious Commands
+id: b772987f-ca62-4c24-ab78-a93ebb561d96
+status: test
+description: Detects spawning of unique and unsigned binaries or commands remotely
+    using the well known process call create command. Inspired by the 2022 Red Canary
+    Threat Detection report.
+references:
+    - https://redcanary.com/threat-detection-report/techniques/windows-management-instrumentation/
+author: Micah Babinski
+date: 2022/11/03
+tags:
+    - attack.execution
+    - attack.t1047
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        Image|endswith: '\wmic.exe'
+        CommandLine|contains:
+            - 'create'
+            - 'node:'
+            - 'process'
+            - 'call'
+    condition: selection
+falsepositives:
+    - Unknown
+level: medium

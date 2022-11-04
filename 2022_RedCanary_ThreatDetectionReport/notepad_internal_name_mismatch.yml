@@ -1,0 +1,27 @@
+title: Process Executing with Unusual Command Lines
+id: 1b7bc524-7d66-4902-9524-0e22e5cbe667
+status: test
+description: Looks for the execution of non-powershell process with command lines
+    matching common powershell format. Inspired by the 2022 Red Canary Threat Detection
+    report.
+references:
+    - https://redcanary.com/threat-detection-report/techniques/rename-system-utilities/
+author: Micah Babinski
+date: 2022/11/04
+tags:
+    - attack.defense_evasion
+    - attack.t1036.003
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    filter:
+        Image|endswith: '\powershell.exe'
+    selection:
+        CommandLine|contains:
+            - 'iex'
+            - 'invoke-expression'
+    condition: selection and not filter
+falsepositives:
+    - Unknown
+level: high

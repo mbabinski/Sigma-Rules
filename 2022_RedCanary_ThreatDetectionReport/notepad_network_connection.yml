@@ -1,0 +1,23 @@
+title: Network Connections Where There Should Not Be (Notepad)
+id: 6abd63f2-a8cc-40bc-b13b-7c60fa20b265
+status: test
+description: Looks for network connections from notepad. Inspired by the 2022 Red
+    Canary Threat Detection report.
+references:
+    - https://redcanary.com/threat-detection-report/techniques/process-injection/
+author: Micah Babinski
+date: 2022/11/03
+tags:
+    - attack.privilege_escalation
+    - attack.t1055
+    - 
+logsource:
+    category: network_connection
+    product: windows
+detection:
+    selection:
+        Image|endswith: '\notepad.exe'
+    condition: selection
+falsepositives:
+    - Unknown
+level: high

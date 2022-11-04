@@ -1,0 +1,28 @@
+title: Abnormal LSASS Process Access and Injection
+id: 23fac7e9-3c44-4b76-891b-72c4d44e1964
+status: test
+description: Detects obviously suspicious cross-process events targetting lsass.exe.
+    Inspired by the 2022 Red Canary Threat Detection report.
+references:
+    - https://redcanary.com/threat-detection-report/techniques/lsass-memory/
+author: Micah Babinski
+date: 2022/11/03
+tags:
+    - attack.credential_access
+    - attack.t1003.001
+logsource:
+    category: process_access
+    product: windows
+detection:
+    selection:
+        SourceImage|endswith:
+            - '\powershell.exe'
+            - '\taskmgr.exe'
+            - '\rundll32.exe'
+            - '\procdump.exe'
+            - '\procexp.exe'
+        TargetImage|endswith: '\lsass.exe'
+    condition: selection
+falsepositives:
+    - Unknown
+level: medium

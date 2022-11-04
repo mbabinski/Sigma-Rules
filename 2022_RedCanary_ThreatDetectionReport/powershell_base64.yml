@@ -1,0 +1,25 @@
+title: PowerShell Base64 Encoding
+id: 1d3025d2-f965-42e2-8256-adaa1054613d
+status: test
+description: Looks for the execution of powershell.exe with command lines that includes
+    the term base64. Inspired by the 2022 Red Canary Threat Detection report.
+references:
+    - https://redcanary.com/threat-detection-report/techniques/powershell/
+author: Micah Babinski
+date: 2022/11/03
+tags:
+    - attack.defense_evasion
+    - attack.t1140
+    - attack.execution
+    - attack.t1059.001
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        CommandLine|contains: 'base64'
+        Image|endswith: '\powershell.exe'
+    condition: selection
+falsepositives:
+    - Windows Config Manager (https://wtfbins.wtf/1)
+level: high

@@ -1,0 +1,31 @@
+title: PowerShell -encodedcommand Switch
+id: 5c0fcaac-e5e9-44a3-811f-b43b7709c339
+status: test
+description: Looks for the execution of powershell.exe with command lines that include
+    variations of the -encodedcommand argument. Inspired by the 2022 Red Canary Threat
+    Detection report.
+references:
+    - https://redcanary.com/threat-detection-report/techniques/powershell/
+author: Micah Babinski
+date: 2022/11/04
+tags:
+    - attack.defense_evasion
+    - attack.t1140
+    - attack.execution
+    - attack.t1059.001
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        CommandLine|contains|windash:
+            - '-e'
+            - '-ec'
+            - '-en'
+            - '-enc'
+            - '-enco'
+        Image|endswith: '\powershell.exe'
+    condition: selection
+falsepositives:
+    - Windows Config Manager (https://wtfbins.wtf/1)
+level: high

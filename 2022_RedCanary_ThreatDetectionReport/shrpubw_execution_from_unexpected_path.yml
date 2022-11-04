@@ -1,0 +1,27 @@
+title: Shrpubw Execution from Unexpected File Path
+id: 3b9fc5ea-6288-4c03-882a-af00df4f5b32
+status: test
+description: Looks for the execution of svchost without the normal -k parameter. Inspired
+    by the 2022 Red Canary Threat Detection report.
+references:
+    - https://redcanary.com/threat-detection-report/techniques/dll-search-order-hijacking/
+author: Micah Babinski
+date: 2022/11/04
+tags:
+    - attack.persistence
+    - attack.1574
+    - attack.1574.001
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        Image|endswith: '\shrpubw.exe'
+    filter:
+        Image|contains:
+            - 'windows\system32\shrpubw.exe'
+            - 'windows\winsxs'
+    condition: selection and not filter
+falsepositives:
+    - Unknown
+level: high

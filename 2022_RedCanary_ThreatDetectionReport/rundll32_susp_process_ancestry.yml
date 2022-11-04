@@ -1,0 +1,34 @@
+title: Rundll32 with Suspicious Process Lineage
+id: a01588a5-b68d-4d55-ab49-76d25c557ed4
+status: test
+description: Detects executions of rundll32.exe from unusual or suspicious parent
+    processes. Inspired by the 2022 Red Canary Threat Detection report.
+references:
+    - https://redcanary.com/threat-detection-report/techniques/rundll32/
+author: Micah Babinski
+date: 2022/11/03
+tags:
+    - attack.defense_evasion
+    - attack.t1218
+    - attack.t1218.011
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        Image|endswith: '\rundll32.exe'
+        ParentImage|endswith:
+            - '\winword.exe'
+            - '\excel.exe'
+            - '\msaccess.exe'
+            - '\lsass.exe'
+            - '\taskeng.exe'
+            - '\winlogon.exe'
+            - '\schtasks.exe'
+            - '\regsvr32.exe'
+            - '\wmiprvse.exe'
+            - '\wsmprovhost.exe'
+    condition: selection
+falsepositives:
+    - Unknown
+level: medium

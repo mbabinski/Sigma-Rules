@@ -1,0 +1,27 @@
+title: Unexpected Internal Process Name
+id: a01d910a-d31d-4d1f-98ce-3dedd301a605
+status: test
+description: Looks for the execution of powershell renamed as Notepad.exe. Inspired
+    by the 2022 Red Canary Threat Detection report.
+references:
+    - https://redcanary.com/threat-detection-report/techniques/rename-system-utilities/
+author: Micah Babinski
+date: 2022/11/03
+tags:
+    - attack.defense_evasion
+    - attack.t1036
+    - attack.t1036.003
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        Description|startswith:
+            - 'Windows Powershell'
+            - 'pwsh'
+        Image|endswith: '\notepad.exe'
+        OriginalFileName: 'powershell.exe'
+    condition: selection
+falsepositives:
+    - Unknown
+level: high

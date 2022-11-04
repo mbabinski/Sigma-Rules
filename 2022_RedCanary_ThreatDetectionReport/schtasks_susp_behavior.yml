@@ -1,0 +1,32 @@
+title: Windows Scheduled Task Behaving Improperly or Suspiciously
+id: ccb39be9-ba55-4553-9614-a94e98e58626
+status: test
+description: Detects scheduled tasks created with the /create flag and a reference
+    to commonly-abused Windows utilities. Inspired by the 2022 Red Canary Threat Detection
+    report.
+references:
+    - https://redcanary.com/threat-detection-report/techniques/scheduled-task/
+author: Micah Babinski
+date: 2022/11/04
+tags:
+    - attack.persistence
+    - attack.execution
+    - attack.t1053
+    - attack.t1053.005
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        Image|endswith: '\schtasks.exe'
+        CommandLine|contains:
+            - 'cmd.exe'
+            - 'powershell.exe'
+            - 'regsvr32.exe'
+            - 'rundll32.exe'
+            - 'mshta.exe'
+        CommandLine|contains|windash: '/create'
+    condition: selection
+falsepositives:
+    - Creation of legitimate scheduled tasks which need to run cmd or similar utilities.
+level: medium

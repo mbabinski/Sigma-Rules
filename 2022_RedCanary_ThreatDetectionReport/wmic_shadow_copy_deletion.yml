@@ -1,0 +1,25 @@
+title: WMIC Shadow Copy Deletion
+id: 68483dc1-6bce-44ba-821b-59f3a0ba3bd8
+status: test
+description: Detects adversaries using WMI to delete shadow copies. Inspired by the
+    2022 Red Canary Threat Detection report.
+references:
+    - https://redcanary.com/threat-detection-report/techniques/windows-management-instrumentation/
+author: Micah Babinski
+date: 2022/11/03
+tags:
+    - attack.impact
+    - attack.t1490
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        Image|endswith: '\wmic.exe'
+        CommandLine|contains|all:
+            - 'shadowcopy'
+            - 'delete'
+    condition: selection
+falsepositives:
+    - Unknown
+level: medium
