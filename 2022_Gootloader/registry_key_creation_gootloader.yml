@@ -1,0 +1,29 @@
+title: Gootloader Stage 2 Registry Key Creation
+id: 10ad1627-1a0a-4323-b3da-3a9394b9535a
+status: test
+description: Detects potential stage 2 Gootloader registry key creation.
+references:
+    - https://redcanary.com/blog/gootloader/
+    - https://thedfirreport.com/2022/05/09/seo-poisoning-a-gootloader-story/
+    - https://blog.nviso.eu/2022/07/20/analysis-of-a-trojanized-jquery-script-gootloader-unleashed/
+author: Micah Babinski
+date: 2022/11/07
+tags:
+    - attack.execution
+    - attack.defense_evasion
+    - attack.t1620
+logsource:
+    category: registry_add
+    product: windows
+detection:
+    selection:
+        EventType: 'CreateKey'
+        TargetObject|contains: 
+            - 'SOFTWARE\Microsoft\Phone\'
+            - 'SOFTWARE\Microsoft\Personalization\'
+        TargetObject|endswith: '0'
+        Image|endswith: '\wscript.exe'
+    condition: selection
+falsepositives:
+    - Unknown
+level: high

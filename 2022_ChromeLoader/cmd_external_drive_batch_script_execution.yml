@@ -1,0 +1,39 @@
+title: CMD Launching Batch Script Stored on External Drive
+id: 79cd4f76-2df9-42e1-a957-34fb7ee5a3cc
+status: test
+description: Detects instances of CMD executing a batch stored on an externally-mounted drives, in turn spawning a tar extraction process.
+references:
+    - https://blogs.vmware.com/security/2022/09/the-evolution-of-the-chromeloader-malware.html
+author: Micah Babinski
+date: 2022/11/07
+tags:
+    - attack.defense_evasion
+    - attack.t1553
+    - attack.t1553.005
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection_parent:
+        ParentImage|endswith:
+            - '\powershell.exe'
+            - '\cmd.exe'
+        ParentCommandLine|contains|windash: '/c'
+        ParentCommandLine|re: '^.*[D-Z]:\\.*\.(bat|cmdline).*$'
+    selection_child_proc:
+        Image|endswith: '\tar.exe'
+    selection_extract_options:
+        CommandLine|contains:
+            - '-xvf'
+            - '-xfv'
+            - '-vxf'
+            - '-vfx'
+            - '-fxv'
+            - '-fvx'
+    selection_output_options:
+        CommandLine|contains: '-c'
+        CommandLine|contains: 'appdata\'
+    condition: all of selection*
+falsepositives:
+    - Unknown
+level: high
