@@ -1,4 +1,4 @@
-title: CMD Launching Batch Script Stored on External Drive
+title: CMD Launching Batch Script Stored on External Drive (Chromeloader)
 id: 79cd4f76-2df9-42e1-a957-34fb7ee5a3cc
 status: test
 description: Detects instances of CMD executing a batch stored on an externally-mounted drives, in turn spawning a tar extraction process.
