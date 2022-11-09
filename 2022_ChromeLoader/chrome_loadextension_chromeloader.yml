@@ -1,6 +1,6 @@
 title: Chrome Spawned by Powershell with Load-Extension in Command Line
 id: 4007bc45-1727-405d-a7bc-4b3d441bf08f
-status: test
+status: experimental
 description: Detects instances of the Chrome browser executable spawning from PowerShell with a corresponding command line that includes appdata\local as a parameter.
 references:
     - https://redcanary.com/blog/chromeloader/

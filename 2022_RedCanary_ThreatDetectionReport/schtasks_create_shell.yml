@@ -1,6 +1,6 @@
 title: Windows Scheduled Task Create Shell
 id: eb9d10be-1ece-4241-bc76-d51eadcaf42b
-status: test
+status: experimental
 description: Detects creation of scheduled tasks which may establish persistence using
     the command shell. Inspired by the 2022 Red Canary Threat Detection report.
 references:

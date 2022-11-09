@@ -1,6 +1,6 @@
 title: Gootloader Stage 2 Registry Key Creation
 id: 10ad1627-1a0a-4323-b3da-3a9394b9535a
-status: test
+status: experimental
 description: Detects potential stage 2 Gootloader registry key creation.
 references:
     - https://redcanary.com/blog/gootloader/

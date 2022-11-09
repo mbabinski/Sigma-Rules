@@ -1,6 +1,6 @@
 title: Rundll32 with Suspicious Export Functionalities
 id: e7cff8e3-89ae-47bd-841f-833e0a647f72
-status: test
+status: experimental
 description: Detects instances of rundll32.exe running Windows native DLLs that have
     export functionalities that adversaries commonly leverage for executing malicious
     code and evading defensive controls. Inspired by the 2022 Red Canary Threat Detection

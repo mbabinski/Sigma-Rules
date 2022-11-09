@@ -1,6 +1,6 @@
 title: Abnormal LSASS Child and Parent Process Relationships
 id: 67ba1ddd-4510-42d5-aa78-83bed66bd684
-status: test
+status: experimental
 description: Detects potential lsass.exe abuse based on unusual and suspicious parent-child
     relationships. Inspired by the 2022 Red Canary Threat Detection report.
 references:

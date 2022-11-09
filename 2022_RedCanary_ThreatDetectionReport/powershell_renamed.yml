@@ -1,6 +1,6 @@
 title: Unexpected Internal Process Name
 id: a01d910a-d31d-4d1f-98ce-3dedd301a605
-status: test
+status: experimental
 description: Looks for the execution of powershell renamed as Notepad.exe. Inspired
     by the 2022 Red Canary Threat Detection report.
 references:

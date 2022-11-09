@@ -1,6 +1,6 @@
 title: Command Shell Bypassing Security Controls
 id: 188b256a-4344-47fb-88ed-6343b37c4999
-status: test
+status: experimental
 description: Detects common ways to bypass controls using Windows Command Shell. Inspired
     by the 2022 Red Canary Threat Detection report.
 references:

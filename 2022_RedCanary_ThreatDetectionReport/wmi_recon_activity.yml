@@ -1,6 +1,6 @@
 title: WMIC Suspicious Commands
 id: 21a5815b-5db5-4e13-99e4-052ae6bbcdc1
-status: test
+status: experimental
 description: Detects adversaries leveraging WMI to gather domain information such
     as users, groups, AV product in use, or computers in the domain. Inspired by the
     2022 Red Canary Threat Detection report.

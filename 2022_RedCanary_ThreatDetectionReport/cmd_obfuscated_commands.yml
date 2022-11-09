@@ -1,6 +1,6 @@
 title: Command Shell Obfuscated Commands
 id: a30afe67-bde7-450f-a143-96a1a86d26d9
-status: test
+status: experimental
 description: Looks for the execution of Windows Command Shell with unusually high
     counts of characters used for obfuscation. Inspired by the 2022 Red Canary Threat
     Detection report.

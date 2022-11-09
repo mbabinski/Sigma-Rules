@@ -1,6 +1,6 @@
 title: CMD Launching Batch Script Stored on External Drive (Chromeloader)
 id: 79cd4f76-2df9-42e1-a957-34fb7ee5a3cc
-status: test
+status: experimental
 description: Detects instances of CMD executing a batch stored on an externally-mounted drives, in turn spawning a tar extraction process.
 references:
     - https://blogs.vmware.com/security/2022/09/the-evolution-of-the-chromeloader-malware.html

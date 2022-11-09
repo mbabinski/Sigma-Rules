@@ -1,6 +1,6 @@
 title: WMIC Suspicious Commands
 id: 9c3367de-94fd-4a46-bc9f-d2943bd32025
-status: test
+status: experimental
 description: Detects suspicious parent-child relationships with the wmiprvse command.
     Inspired by the 2022 Red Canary Threat Detection report.
 references:

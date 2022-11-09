@@ -1,6 +1,6 @@
 title: Rundll32 without Command Line
 id: 48bd57e9-1b2b-4be9-a2aa-5fccbe86b136
-status: test
+status: experimental
 description: Detects instances of rundll32.exe with no command line that spawns a
     child process. Inspired by the 2022 Red Canary Threat Detection report.
 references:

@@ -1,6 +1,6 @@
 title: Base64 Encoding in CMD or Powershell
 id: 1b5f1187-7010-4f58-b6a3-2b762d594b90
-status: test
+status: experimental
 description: Looks for the execution of cmd.exe or powershell.exe with command lines
     that includes the term base64. Inspired by the 2022 Red Canary Threat Detection
     report.

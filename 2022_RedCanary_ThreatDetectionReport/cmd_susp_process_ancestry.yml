@@ -1,6 +1,6 @@
 title: Command Shell Unusual or Suspicious Process Ancestry
 id: 157c153a-97d1-43e4-bc25-5461f52c935d
-status: test
+status: experimental
 description: Looks for suspicious process interactions between the Windows IIS worker
     process (w3wp.exe) and the command shell. Inspired by the 2022 Red Canary Threat
     Detection report.

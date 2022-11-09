@@ -1,6 +1,6 @@
 title: Windows Scheduled Task Behaving Improperly or Suspiciously
 id: ccb39be9-ba55-4553-9614-a94e98e58626
-status: test
+status: experimental
 description: Detects scheduled tasks created with the /create flag and a reference
     to commonly-abused Windows utilities. Inspired by the 2022 Red Canary Threat Detection
     report.

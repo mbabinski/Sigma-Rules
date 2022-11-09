@@ -1,6 +1,6 @@
 title: Wscript.exe Executing Agreement Javascript in AppData Folder
 id: c9677b37-50f0-44d3-b8f8-24b5b5eed570
-status: test
+status: experimental
 description: Detects potential stage 1 Gootloader javascript execution.
 references:
     - https://redcanary.com/blog/gootloader/

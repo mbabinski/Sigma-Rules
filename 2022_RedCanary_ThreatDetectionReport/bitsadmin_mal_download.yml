@@ -1,6 +1,6 @@
 title: BITSAdmin Downloading Malicious Binaries
 id: c7568c9e-f6c6-4cb7-a3c0-da356aef51d8
-status: test
+status: experimental
 description: Detects usage of BITSAdmin to download malicious code. Inspired by the
   2022 Red Canary Threat Detection report.
 references:

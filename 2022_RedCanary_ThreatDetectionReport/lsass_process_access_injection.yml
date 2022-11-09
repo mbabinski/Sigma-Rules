@@ -1,6 +1,6 @@
 title: Abnormal LSASS Process Access and Injection
 id: 23fac7e9-3c44-4b76-891b-72c4d44e1964
-status: test
+status: experimental
 description: Detects obviously suspicious cross-process events targetting lsass.exe.
     Inspired by the 2022 Red Canary Threat Detection report.
 references:

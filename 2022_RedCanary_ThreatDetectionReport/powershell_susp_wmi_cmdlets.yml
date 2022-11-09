@@ -1,6 +1,6 @@
 title: Suspicious WMI-Related Powershell Cmdlets
 id: c920d5b8-0e50-40ef-8f1a-5eb27399f455
-status: test
+status: experimental
 description: Detects potential adversaries using powershell WMI-related cmdlets to
     query the operating system or execute commands, either locally or remotely. Inspired
     by the 2022 Red Canary Threat Detection report.

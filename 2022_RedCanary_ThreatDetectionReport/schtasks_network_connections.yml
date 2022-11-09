@@ -1,6 +1,6 @@
 title: Windows Scheduled Task Making Suspicious Network Connection
 id: 4a224230-746d-436b-b569-59f2d6809d6b
-status: test
+status: experimental
 description: Detects scheduled tasks created to reach out to external domains and
     download arbitrary binaries on a set or recurring schedule. Inspired by the 2022
     Red Canary Threat Detection report.

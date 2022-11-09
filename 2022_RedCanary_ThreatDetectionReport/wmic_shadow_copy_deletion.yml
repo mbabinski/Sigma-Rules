@@ -1,6 +1,6 @@
 title: WMIC Shadow Copy Deletion
 id: 68483dc1-6bce-44ba-821b-59f3a0ba3bd8
-status: test
+status: experimental
 description: Detects adversaries using WMI to delete shadow copies. Inspired by the
     2022 Red Canary Threat Detection report.
 references:

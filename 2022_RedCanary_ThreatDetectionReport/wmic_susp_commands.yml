@@ -1,6 +1,6 @@
 title: WMIC Suspicious Commands
 id: b772987f-ca62-4c24-ab78-a93ebb561d96
-status: test
+status: experimental
 description: Detects spawning of unique and unsigned binaries or commands remotely
     using the well known process call create command. Inspired by the 2022 Red Canary
     Threat Detection report.

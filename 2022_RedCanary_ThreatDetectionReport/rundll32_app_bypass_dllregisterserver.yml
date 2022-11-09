@@ -1,6 +1,6 @@
 title: Application Bypass with RunDLL32 and DllRegisterServer Function
 id: 361f2190-4857-4505-aaf9-588013b390f1
-status: test
+status: experimental
 description: DLLs that are designed to be loaded by Regsvr32 are expected to have
     a DllRegisterServer export function implemented. This detects use of the same DLL
     to rundll32.exe. Inspired by the 2022 Red Canary Threat Detection report.
