@@ -1,0 +1,45 @@
+title: Solarmarker Intermediate Stage File Creation
+id: 9b3d414e-a215-4262-b502-484b6b24b7d6
+status: experimental
+description: Detects creation of intermediate stage Solarmarker malware files.
+references:
+    - https://www.crowdstrike.com/blog/solarmarker-backdoor-technical-analysis/
+    - https://www.binarydefense.com/mars-deimos-from-jupiter-to-mars-and-back-again-part-two/
+    - https://news.sophos.com/en-us/2022/02/01/solarmarker-campaign-used-novel-registry-changes-to-establish-persistence/
+author: Micah Babinski
+date: 2022/11/09
+tags:
+    - attack.command_and_control
+    - attack.persistence
+    - attack.t1105
+    - attack.t1132
+    - attack.t1547
+    - attack.t1547.001
+logsource:
+    category: file_event
+    product: windows
+detection:
+    selection_first_stage:
+        TargetFilename|contains|all:
+            - '\appdata\'
+            - '\temp\'
+        TargetFilename|re: '^.*\\\w{24}\.(?i)ps1$'
+    selection_fourth_stage:
+        TargetFilename|contains|all:
+            - '\appdata\'
+            - '\microsoft\'
+        TargetFilename|re: '^.*\\\w{4}\\\w{8}\.(?i)cmd$'
+    selection_b64_backdoor:
+        TargetFilename|contains|all:
+            - '\appdata\'
+            - '\microsoft\'
+        TargetFilename|re: '^.*\\\w{4}\\\w{52}$'
+    selection_startup_lnk_file:
+        TargetFilename|contains:
+            - 'AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup'
+            - 'C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp'
+        TargetFilename|re: '^.*\\([0-9a-fA-F]){29}\.(?i)lnk$'
+    condition: any of selection*
+falsepositives:
+    - Unknown
+level: high

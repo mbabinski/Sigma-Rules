@@ -1,0 +1,29 @@
+title: Solarmarker File Extension Registry Key Set
+id: 57c4dca5-51cd-4cff-b835-d7eebe8e92f6
+related:
+    - id: 7530b96f-ad8e-431d-a04d-ac85cc461fdc
+      type: similar
+status: experimental
+description: Detects creation of suspicious file extension registry key. This extension is then registered with a custom file type (see Detail component of detection below) with a malicious powershell payload specified.
+references:
+    - https://news.sophos.com/en-us/2022/02/01/solarmarker-campaign-used-novel-registry-changes-to-establish-persistence/
+    - https://www.esentire.com/blog/esentire-threat-intelligence-malware-analysis-solarmarker
+    - https://www.elastic.co/security-labs/going-coast-to-coast-climbing-the-pyramid-with-the-deimos-implant
+author: Micah Babinski
+date: 2022/11/09
+tags:
+    - attack.defense_evasion
+    - attack.t1202
+logsource:
+    category: registry_set
+    product: windows
+detection:
+    selection:
+        Image|endswith: '\powershell.exe'
+        EventType: 'SetValue'
+        TargetObject|re: '^.*\\.([a-zA-Z]){13,18}$'
+        Detail|re: '^.*([a-z]){18,22}$'
+    condition: selection
+falsepositives:
+    - Unknown
+level: high

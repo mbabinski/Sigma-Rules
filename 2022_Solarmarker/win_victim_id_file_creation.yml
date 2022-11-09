@@ -1,6 +1,6 @@
 title: Solarmarker Unique Victim ID File Creation
 id: c7e8e46c-10f2-45e6-936d-8651522223d1
-status: test
+status: experimental
 description: Detects creation of anomalous text file used to generate victim ID by Solarmarker malware.
 references:
     - https://www.crowdstrike.com/blog/solarmarker-backdoor-technical-analysis/
