@@ -1,0 +1,26 @@
+title: Solarmarker Unique Victim ID File Creation
+id: c7e8e46c-10f2-45e6-936d-8651522223d1
+status: test
+description: Detects creation of anomalous text file used to generate victim ID by Solarmarker malware.
+references:
+    - https://www.crowdstrike.com/blog/solarmarker-backdoor-technical-analysis/
+    - https://news.sophos.com/en-us/2022/02/01/solarmarker-campaign-used-novel-registry-changes-to-establish-persistence/
+author: Micah Babinski
+date: 2022/11/08
+tags:
+    - attack.command_and_control
+    - attack.t1132
+logsource:
+    category: file_event
+    product: windows
+detection:
+    selection_1:
+        TargetFileName|contains: '\AppData\Roaming\'
+        TargetFileName|re: '^.{120,}$'
+        TargetFileName|endswith: '='
+    selection_2:
+        TargetFileName|endswith: '\AppData\Roaming\solarmarker.dat'
+    condition: any of selection*
+falsepositives:
+    - Unknown
+level: high
