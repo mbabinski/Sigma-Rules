@@ -20,7 +20,7 @@ detection:
     selection:
         Image|endswith: '\powershell.exe'
         # regex below detects five or more occurrences of the suspicious characters
-        CommandLine|re: '^([^^+%]*[\^+%]){5,}[^^+%]*$'
+        CommandLine|re: '^([^^+]*[\^+]){5,}[^^+]*$'
     condition: selection
 falsepositives:
     - Unknown
