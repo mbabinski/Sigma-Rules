@@ -21,7 +21,9 @@ detection:
             - 'invoke-expression'
     filter:
         Image|endswith: '\powershell.exe'
-    condition: selection and not filter
+    filter2:
+        Image|endswith: '\iexplore.exe'
+    condition: selection and 1 of filter*
 falsepositives:
     - Unknown
 level: high
