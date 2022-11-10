@@ -25,8 +25,9 @@ detection:
             - 'regsvr32.exe'
             - 'rundll32.exe'
             - 'mshta.exe'
-        CommandLine|contains|windash: '/create'
-    condition: selection
+    selection2:
+        CommandLine|contains: '/create'
+    condition: selection and selection2
 falsepositives:
     - Creation of legitimate scheduled tasks which need to run cmd or similar utilities.
 level: medium
