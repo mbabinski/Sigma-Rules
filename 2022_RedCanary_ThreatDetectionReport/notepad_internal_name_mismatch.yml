@@ -20,6 +20,8 @@ detection:
         Image|endswith: '\powershell.exe'
     filter2:
         Image|endswith: '\msiexec.exe'
+    filter3:
+        Image|endswith: '\iexplore.exe'
     selection:
         CommandLine|contains:
             - 'iex'
