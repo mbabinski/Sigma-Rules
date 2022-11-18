@@ -1,0 +1,32 @@
+title: Malicious QakBot Dropped File Creation (Event 4663)
+id: 069aacee-0176-4bdd-8c8b-09e958b88b70
+status: experimental
+description: Detects creation of files potentially associated with QakBot initial infection, documented by Adithya Chandra and Sushant Kumar Arya of Trellix in August 2022.
+references:
+    - https://www.trellix.com/en-us/about/newsroom/stories/research/demystifying-qbot-malware.html
+author: Micah Babinski
+date: 2022/11/17
+tags:
+    - attack.initial_access
+    - attack.defense_evasion
+    - attack.t1566
+    - attack.t1027
+    - attack.t1553
+logsource:
+    product: windows
+    service: security
+detection:
+    selection:
+        EventID: 4663
+        ObjectType: 'File'
+        AccessList: '%%4417'
+        ObjectName|endswith:
+            - '.html'
+            - '.zip'
+            - '.iso'
+            - '.lnk'
+        ObjectName|re: '.*TXRTN_[0-9]{7}\..*'
+    condition: selection
+falsepositives:
+    - Unknown
+level: high

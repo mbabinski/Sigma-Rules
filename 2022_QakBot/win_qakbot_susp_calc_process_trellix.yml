@@ -1,0 +1,23 @@
+title: Suspicious Calc Child Process
+id: 76c86421-c373-4cac-9510-66455bc5fcd5
+status: experimental
+description: Detects the suspicious child process of calc
+references:
+    - https://www.trellix.com/en-us/about/newsroom/stories/research/demystifying-qbot-malware.html
+date: 2022/04/08
+tags:
+    - attack.defense_evasion
+    - attack.1218
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        ParentImage|endswith: '\calc.exe'
+        Image|endswith:
+            - '\regsvr32.exe'
+            - '\rundll32.exe'
+    condition: selection
+falsepositives:
+    - Unknown
+level: high

@@ -1,0 +1,35 @@
+title: Suspicious Command Arguments from Explorer or Wermgr
+id: ebda47a5-173e-493d-93a6-d7123076ee11
+status: experimental
+description: Detects the suspicious command line arguments from potentially-injected versions of explorer or wermgr processes.
+references:
+    - https://www.trellix.com/en-us/about/newsroom/stories/research/demystifying-qbot-malware.html
+author: Adithya Chandra and Sushant Kumar Arya, Trellix
+date: 2022/04/08
+tags:
+    - attack.discovery
+    - attack.1082
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        Image|endswith: 
+            - '\explorer.exe'
+            - '\wermgr.exe'
+        CommandLine|contains|windash:
+            - 'whoami /all'
+            - 'arp -a'
+            - 'ipconfig /all'
+            - 'net view /all'
+            - 'cmd /c set'
+            - 'nslookup -querytype=ALL -timeout=10 _ldap._tcp.dc._msdcs'
+            - 'nltest /domain_trusts /all_trusts'
+            - 'net share'
+            - 'netstat -nao'
+            - 'net localgroup'
+            - 'qwinsta'
+    condition: selection
+falsepositives:
+    - Unknown
+level: high

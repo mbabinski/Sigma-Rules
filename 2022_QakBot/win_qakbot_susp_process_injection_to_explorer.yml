@@ -1,0 +1,22 @@
+title: Suspicious Process Injection to Explorer
+id: ddef6008-8465-4ce6-b2ec-4e8ffef62a9a
+status: experimental
+description: Detects the suspicious child process of regsvr32
+references:
+    - https://www.trellix.com/en-us/about/newsroom/stories/research/demystifying-qbot-malware.html
+author: Adithya Chandra and Sushant Kumar Arya, Trellix
+date: 2022/04/08
+tags:
+    - attack.defense_evasion
+    - attack.1218
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        ParentImage|endswith: '\regsvr32.exe'
+        Image|endswith: '\explorer.exe'
+    condition: selection
+falsepositives:
+    - Unknown
+level: high
