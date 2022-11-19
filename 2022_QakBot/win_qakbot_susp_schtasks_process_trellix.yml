@@ -1,0 +1,27 @@
+title: Suspicious Schtasks Child Process
+id: 6470cbb3-a339-40dd-8d0e-250013b86828
+status: experimental
+description: Detects schtasks being run as a child process of explorer.exe to create a schedule task.
+references:
+    - https://www.trellix.com/en-us/about/newsroom/stories/research/demystifying-qbot-malware.html
+author: Micah Babinski
+date: 2022/11/19
+tags:
+    - attack.persistence
+    - attack.1218
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        ParentImage|endswith: '\explorer.exe'
+        Image|endswith: '\schtasks.exe'
+        CommandLine|contains|windash:
+            - '/create'
+            - '/ru'
+            - '/sc once'
+            - 'powershell'
+    condition: selection
+falsepositives:
+    - Unknown
+level: high
