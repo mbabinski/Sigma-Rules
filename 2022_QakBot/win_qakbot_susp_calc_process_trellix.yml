@@ -4,6 +4,7 @@ status: experimental
 description: Detects the suspicious child process of calc
 references:
     - https://www.trellix.com/en-us/about/newsroom/stories/research/demystifying-qbot-malware.html
+author: Adithya Chandra and Sushant Kumar Arya, Trellix
 date: 2022/04/08
 tags:
     - attack.defense_evasion

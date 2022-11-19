@@ -1,0 +1,25 @@
+title: Suspicious Calc DLL Load
+id: b47b9cc3-6f9a-4a58-a669-5e5e126514b1
+status: experimental
+description: Detects Windows 7 calc.exe loading DLLs from suspicious or abnormal file paths.
+references:
+    - https://www.trellix.com/en-us/about/newsroom/stories/research/demystifying-qbot-malware.html
+author: Micah Babinski
+date: 2022/11/19
+tags:
+    - attack.persistence
+    - attack.t1574
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        Image|endswith: '\calc.exe'
+    filter:
+        ImageLoaded|startswith:
+            - 'C:\Windows\System32'
+            - 'C:\Windows\SysWOW64'
+    condition: selection and not filter
+falsepositives:
+    - Unknown
+level: high
