@@ -1,0 +1,31 @@
+title: Use of bcdedit to Disrupt Boot Processes
+id: e28f76ad-bdd9-4e56-bd09-ce8b9b853b7f
+status: experimental
+description: Detects the use of bcdedit to disrupt normal boot processes.
+references:
+    - https://www.cisa.gov/uscert/ncas/alerts/aa22-321a
+    - https://blog.nviso.eu/2022/05/30/detecting-bcd-changes-to-inhibit-system-recovery/
+author: Micah Babinski
+date: 2022/11/22
+tags:
+    - attack.impact
+    - attack.t1490
+    - attack.g0092
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection_exe:
+        Image|endswith: '\bcdedit.exe'
+        CommandLine|contains|windash: '/set'
+    selection_ignorefailure:
+        CommandLine|contains: 'bootstatuspolicy'
+        CommandLine|re: 'ignore[a-zA-Z]*failures'
+    selection_disablerecovery:
+        CommandLine|contains|all:
+            - 'recoveryenabled'
+            - 'no'
+    condition: selection_exe and (selection_ignorefailure or selection_disablerecovery)
+falsepositives:
+    - Unknown
+level: high

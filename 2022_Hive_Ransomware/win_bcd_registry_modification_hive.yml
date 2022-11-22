@@ -1,0 +1,28 @@
+title: Boot Configuration Database (BCD) Manipulation - Registry Modification
+id: 99a9fbb6-62bf-4cb7-8406-a363bc14cbf3
+status: experimental
+description: Detects registry modifications occuring in tandem with disruption of boot processes with bcdedit (or as a method to evade detection)
+references:
+    - https://www.cisa.gov/uscert/ncas/alerts/aa22-321a
+    - https://blog.nviso.eu/2022/05/30/detecting-bcd-changes-to-inhibit-system-recovery/
+author: Micah Babinski
+date: 2022/11/22
+tags:
+    - attack.impact
+    - attack.t1490
+    - attack.g0092
+logsource:
+    category: registry_set
+    product: windows
+detection:
+    selection_1:
+        EventType: 'SetValue'
+        TargetObject|contains: 'elements'
+    selection_2:
+        TargetObject|contains: 
+            - '16000009'
+            - '250000e0'
+    condition: selection_1 and selection_2
+falsepositives:
+    - WMI initiating BCD changes
+level: high

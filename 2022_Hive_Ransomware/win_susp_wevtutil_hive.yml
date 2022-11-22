@@ -1,0 +1,34 @@
+title: Event Log Manipulation Using Wevtutil
+id: 4d71069b-dda7-4df7-b835-1f23dd212615
+status: experimental
+description: Detects the use of wevtutil to clear or otherwise manipulate Windows event logs.
+references:
+    - https://www.cisa.gov/uscert/ncas/alerts/aa22-321a
+author: Micah Babinski
+date: 2022/11/22
+tags:
+    - attack.defense_evasion
+    - attack.t1070
+    - attack.g0092
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection_exe:
+        Image|endswith: '\wevtutil.exe'
+    selection_clear:
+        CommandLine|contains:
+            - ' cl '
+            - 'clear-log'
+    selection_set:
+        CommandLine|contains:
+            - ' sl '
+            - 'set-log'
+    selection_set_flags:
+        CommandLine|contains|windash: 
+            - '/e:false'
+            - '/ms:'
+    condition: selection_exe and (selection_clear or (selection_set and selection_set_flags))
+falsepositives:
+    - Unknown
+level: high
