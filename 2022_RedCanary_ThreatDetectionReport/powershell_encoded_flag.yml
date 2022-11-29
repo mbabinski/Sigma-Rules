@@ -19,7 +19,6 @@ logsource:
 detection:
     selection:
         CommandLine|contains|windash:
-            - '-e'
             - '-ec'
             - '-en'
             - '-enc'
