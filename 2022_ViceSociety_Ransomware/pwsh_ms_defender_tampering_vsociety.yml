@@ -1,0 +1,33 @@
+title: Powershell MS Defender Tampering - ScriptBlockLogging
+id: 9e50b0e6-464b-4eb3-858c-690d2d51e812
+related:
+    - id: 14c71865-6cd3-44ae-adaa-1db923fae5f2
+      type: derived
+status: experimental
+description: Detects powershell scripts attempting to disable MS Defender components using Set-MpPreference as performed by Vice Society ransomware gang. This includes additional techniques to evade existing rules by feeding in a proxy value of $true using a powershell boolean expression like (0 -eq $false).
+references:
+    - https://www.educba.com/powershell-boolean/
+    - https://learn.microsoft.com/en-us/powershell/module/defender/set-mppreference?view=windowsserver2022-ps
+    - https://www.microsoft.com/en-us/security/blog/2022/10/25/dev-0832-vice-society-opportunistic-ransomware-campaigns-impacting-us-education-sector/
+author: Micah Babinski
+date: 2022/11/26
+tags:
+    - attack.defense_evasion
+    - attack.t1562
+    - attack.t1562.001
+logsource:
+    product: windows
+    category: ps_script
+    definition: Script block logging must be enabled
+detection:
+    selection_options_disabling_preference:
+        ScriptBlockText|contains|all:
+            - 'Set-MpPreference'
+            - '-DisableRealtimeMonitoring'
+    filter:
+        # the regex below will match on the typical ways by which people enable realtime monitoring
+        ScriptBlockText|re: '.*Set-MpPreference.*Disable.*\s(\$false|0).*'
+    condition: selection and not filter
+falsepositives:
+    - Legitimate PowerShell scripts which need to disable MS Defender.
+level: high

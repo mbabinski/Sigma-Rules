@@ -1,0 +1,29 @@
+title: Suspicious 'Admin' Local User Creation with Net Command
+id: 0ce1911b-5038-4ee7-8925-013d808c6c7f
+status: experimental
+description: Detects creation of a local user account using the net command with 'Admin' in the name - this technique is used by Vice Society ransomware gang to create bogus user accounts that attempt to blend in with an administrative user account naming convention.
+references:
+    - https://www.microsoft.com/en-us/security/blog/2022/10/25/dev-0832-vice-society-opportunistic-ransomware-campaigns-impacting-us-education-sector/
+author: Micah Babinski
+date: 2022/11/28
+tags:
+    - attack.persistence
+    - attack.privilege_escalation
+    - attack.t1136.001
+    - attack.t1136
+    - attack.1078
+    - attack.1078.003
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        Image|endswith: '\net.exe'
+        CommandLine|contains:
+            - 'user'
+            - 'add'
+            - 'adm'
+    condition: selection
+falsepositives:
+    - Valid creation of local user accounts with adm in the name (should be rare)
+level: high

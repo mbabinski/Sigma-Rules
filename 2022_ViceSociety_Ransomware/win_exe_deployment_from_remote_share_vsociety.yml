@@ -1,0 +1,33 @@
+title: Executable Deployment from Remote Share
+id: 85f915d8-7cbc-4bd5-b1cc-03c7f3188c19
+status: experimental
+description: Detects use of the copy utility to deploy executable files from a remote share to a temp directory, such as the procedure performed by Vice Ransomware gang.
+references:
+    - https://www.microsoft.com/en-us/security/blog/2022/10/25/dev-0832-vice-society-opportunistic-ransomware-campaigns-impacting-us-education-sector/
+author: Micah Babinski
+date: 2022/11/26
+tags:
+    - attack.lateral_movement
+    - attack.command_and_control
+    - attack.t1105
+    - attack.t1021
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        Image|endswith: '\cmd.exe'
+        CommandLine|contains|windash: '/c'
+        CommandLine|contains|all:
+            - 'copy'
+            - 'exe'
+            - 'c$'
+            - '\\\\'
+        CommandLine|contains:
+            - 'temp'
+            - 'tmp'
+        CommandLine|re: '.*(?:[0-9]{1,3}\.){3}[0-9]{1,3}.*'
+    condition: selection
+falsepositives:
+    - Unknown
+level: high

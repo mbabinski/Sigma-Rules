@@ -1,0 +1,62 @@
+title: Tampering of Windows Defender with Reg
+id: ca11521c-5d9c-484f-b83a-14aa12df1201
+status: experimental
+description: Detects use of the reg utility to tamper with MS Defender protections.
+references:
+    - https://www.microsoft.com/en-us/security/blog/2022/10/25/dev-0832-vice-society-opportunistic-ransomware-campaigns-impacting-us-education-sector/
+    - https://www.elevenforum.com/t/enable-or-disable-automatic-sample-submission-for-microsoft-defender-antivirus-in-windows-11.4010/
+author: Micah Babinski
+date: 2022/11/26
+tags:
+    - attack.defense_evasion
+    - attack.t1562
+    - attack.t1562.001
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection_base:
+        Image|endswith: '\reg.exe'
+    selection_disable_defender:
+        CommandLine|contains|all:
+            - 'delete'
+            - '\Software\Policies\Microsoft\Windows Defender'
+    selection_disable_defender_services:
+        CommandLine|contains|all|windash:
+            - 'add'
+            - '/d'
+            - '1'
+        CommandLine|contains:
+            - 'DisableAntiSpyware'
+            - 'DisableAntiSpywareRealtimeProtection'
+            - 'DisableAntiVirus'
+            - 'DisableBehaviorMonitoring'
+            - 'DisableIOAVProtection'
+            - 'DisableOnAccessProtection'
+            - 'DisableRealtimeMonitoring'
+            - 'DisableRoutinelyTakingAction'
+            - 'DisableScanOnRealtimeEnable'
+            - 'DisableEnhancedNotifications'
+            - 'DisableBlockAtFirstSeen'
+            - 'DisableConfig'
+            - 'DisablePrivacyMode'
+            - 'DisableScriptScanning'
+            - 'DisableIntrusionPreventionSystem'
+    selection_disable_pus:
+        CommandLine|contains|all|windash:
+            - 'add'
+            - '/d'
+            - '0'
+        CommandLine|contains:
+            - 'MpEnablePus'
+            - 'SpynetReporting'
+    selection_disable_sample_submission:
+        CommandLine|contains|all|windash:
+            - 'add'
+            - '/d'
+            - '2'
+            - 'SubmitSamplesConsent'
+    condition: selection_base and 1 of selection_disable*
+falsepositives:
+    - Unknown
+level: high

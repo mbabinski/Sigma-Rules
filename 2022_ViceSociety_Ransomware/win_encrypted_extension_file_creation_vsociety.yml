@@ -1,0 +1,25 @@
+title: Vice Society Encrypted File Extension File Creation
+id: ba85a1ba-a194-4f03-9064-0c53da092698
+status: experimental
+description: Detects creation of potentially-encrypted files by Vice Society ransomeware. As this is based only on file extensions, the analyst should investigate surrounding activity to validate that this is not part of a benign applicatoin.
+references:
+    - https://www.microsoft.com/en-us/security/blog/2022/10/25/dev-0832-vice-society-opportunistic-ransomware-campaigns-impacting-us-education-sector/
+    - https://www.cisa.gov/uscert/ncas/alerts/aa22-249a
+author: Micah Babinski
+date: 2022/11/26
+tags:
+    - attack.impact
+    - attack.t1486
+logsource:
+    category: file_event
+    product: windows
+detection:
+    selection:
+        TargetFilename|endswith:
+            - '.locked'
+            - '.vs0ciety'
+            - '.v-society'
+    condition: selection
+falsepositives:
+    - Unknown
+level: high
