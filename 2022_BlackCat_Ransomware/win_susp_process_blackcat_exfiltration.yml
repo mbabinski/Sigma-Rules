@@ -1,0 +1,32 @@
+title: Suspicious BlackCat-Related Exfiltration Command
+id: 613624be-dabf-4562-b49b-c2fd45773556
+status: experimental
+description: Detects process execution of RClone or similar tools used by ransomware operators to exfiltrate data.
+references:
+    - https://www.microsoft.com/en-us/security/blog/2022/06/13/the-many-lives-of-blackcat-ransomware/
+    - https://rclone.org/docs/
+author: Micah Babinski
+date: 2022/12/04
+tags:
+    - attack.exfiltration
+    - attack.t1020
+    - attack.1537
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        CommandLine|contains|all:
+            - 'copy'
+            - '--max-age'
+            - '--ignore-existing'
+            - '--multi-thread-streams'
+            - '--transfers'
+        CommandLine|contains:
+            - 'ftp'
+            - 'ssh'
+            - '-q'
+    condition: selection
+falsepositives:
+    - Legitimate use of rclone to manage files on cloud storage.
+level: high

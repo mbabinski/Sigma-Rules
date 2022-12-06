@@ -1,0 +1,23 @@
+title: Suspicious Process Execution in PerfLogs Directory
+id: 82469ee5-ccf3-4669-9be6-31830f7ef3d7
+status: experimental
+description: Detects process execution in PerfLogs folder - a folder used by Windows for log collection - and matching previously-observed naming patterns for ransomware executables.
+references:
+    - https://www.microsoft.com/en-us/security/blog/2022/06/13/the-many-lives-of-blackcat-ransomware/
+author: Micah Babinski
+date: 2022/12/04
+tags:
+    - attack.defense_evasion
+    - attack.t1564
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection1:
+        ParentImage|contains: 'perflogs'
+    selection2:
+        ParentImage|re: '^.*\\[a-z]{3}\.exe'
+    condition: all of selection*
+falsepositives:
+    - Unknown
+level: high

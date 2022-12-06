@@ -1,0 +1,23 @@
+title: Suspicious Command Line Indicating BlackCat Execution with Get UUID Option
+id: 76fe5991-2bff-4ae2-adcf-28a95788027f
+status: experimental
+description: Detects process execution with the --access-token flag accompanied by a child process with a 'get uuid' option.
+references:
+    - https://www.microsoft.com/en-us/security/blog/2022/06/13/the-many-lives-of-blackcat-ransomware/
+author: Micah Babinski
+date: 2022/12/04
+tags:
+    - attack.execution
+    - attack.t1059
+    - attack.t1204
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        ParentCommandLine|contains: '--access-token'
+        CommandLine|contains: 'get uuid'
+    condition: selection
+falsepositives:
+    - Unknown
+level: high

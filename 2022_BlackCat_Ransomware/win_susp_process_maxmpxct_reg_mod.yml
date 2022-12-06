@@ -1,0 +1,27 @@
+title: Suspicious Registry Modification of MaxMpxCt Parameters
+id: 9fc5784b-50ab-4f0e-8044-5e15990d48a1
+status: experimental
+description: Detects registry modifications to change MaxMpxCt settings. BlackCat does this to increase the number of outstanding requests allowed, such as SMB requests to distribute ransomware through an environment.
+references:
+    - https://www.microsoft.com/en-us/security/blog/2022/06/13/the-many-lives-of-blackcat-ransomware/
+author: Micah Babinski
+date: 2022/12/04
+tags:
+    - attack.command_and_control
+    - attack.defense_evasion
+    - attack.t1105
+    - attack.t1562
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        CommandLine|contains|all:
+            - 'LanmanServer'
+            - 'parameters'
+            - 'MaxMpxCt'
+            - '65535'
+    condition: selection
+falsepositives:
+    - Unknown
+level: high
