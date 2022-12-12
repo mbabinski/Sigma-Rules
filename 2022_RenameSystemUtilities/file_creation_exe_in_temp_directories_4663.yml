@@ -1,0 +1,28 @@
+title: File Creation of Executables in Temp Folders (Event 4663)
+id: 069aacee-0176-4bdd-8c8b-09e958b88b70
+status: experimental
+description: Detects creation of files potentially matching attempts to copy executables to temporary directories to hide usage.
+references:
+    - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1036.003/T1036.003.md#atomic-test-1---masquerading-as-windows-lsass-process
+author: Micah Babinski
+date: 2022/12/11
+tags:
+    - attack.defense_evasion
+    - attack.t1036.003
+    - attack.t1036
+logsource:
+    product: windows
+    service: security
+detection:
+    selection:
+        EventID: 4663
+        ObjectType: 'File'
+        AccessList: '%%4417'
+        ObjectName|endswith: '.exe'
+        ObjectName|contains:
+            - 'temp'
+            - 'tmp'
+    condition: selection
+falsepositives:
+    - Unknown
+level: high

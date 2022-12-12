@@ -1,0 +1,23 @@
+title: Process Creation without .exe File Extension
+id: 02dc3892-2fd0-4dd5-b2d7-62052a837abe
+status: experimental
+description: Detects process creations where the Image does not have a .exe file extension.
+references:
+    - https://vblocalhost.com/uploads/VB2021-Kayal-etal.pdf
+author: Micah Babinski
+date: 2022/12/11
+tags:
+    - attack.defense_evasion
+    - attack.t1036.003
+    - attack.t1036
+    - attack.s1020
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        Image|endswith: '.exe'
+    condition: not selection
+falsepositives:
+    - Unknown
+level: high

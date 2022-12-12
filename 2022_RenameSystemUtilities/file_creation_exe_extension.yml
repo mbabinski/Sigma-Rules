@@ -1,0 +1,30 @@
+title: Command or Scripting Interpreter Creating EXE File
+id: 47d68f87-d0f0-4386-8362-d62b7135a494
+status: experimental
+description: Detects the suspicious child use of shell or scripting interpreter to create a file ending in exe.
+references:
+    - https://security.stackexchange.com/questions/210843/is-it-possible-to-change-original-filename-of-an-exe
+    - https://github.com/electron/rcedit
+author: Micah Babinski
+date: 2022/12/11
+tags:
+    - attack.defense_evasion
+    - attack.t1036.003
+    - attack.t1036
+logsource:
+    category: file_creation
+    product: windows
+detection:
+    selection:
+        Image|endswith:
+            - '\cmd.exe'
+            - '\powershell.exe'
+            - '\powershell_ise.exe'
+            - '\wscript.exe'
+            - '\python.exe'
+            - '\pythonw.exe'
+        TargetFilename|endswith: '.exe'
+    condition: selection
+falsepositives:
+    - Unknown
+level: high
