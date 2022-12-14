@@ -17,14 +17,15 @@ logsource:
     category: process_creation
     product: windows
 detection:
-    selection:
+    selection1:
         Image|endswith: '\schtasks.exe'
-        CommandLine|contains|windash: '/create'
+        CommandLine|contains: '/create'
+    selection2:
         CommandLine|contains:
             - 'https://'
             - 'http://'
             - 'ftp://'
-    condition: selection
+    condition: selection1 and selection2
 falsepositives:
     - Creation of legitimate scheduled tasks which need to access external sites.
 level: medium
