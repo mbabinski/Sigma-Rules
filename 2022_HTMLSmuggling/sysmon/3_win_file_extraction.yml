@@ -1,0 +1,31 @@
+title: ISO, VHD or IMG File Extracted from Zip
+id: f853978d-343e-4879-ab56-dfe07f1f2f0b
+status: experimental
+description: Detects extraction of ISO, VHD, or IMG files from zip files. Commonly associated with QakBot and IcedID.
+references:
+    - https://blog.talosintelligence.com/html-smugglers-turn-to-svg-images/#:~:text=HTML%20smuggling%20is%20a%20technique,directly%20on%20the%20victim's%20device.
+author: Micah Babinski
+date: 2022/12/15
+tags:
+    - attack.s0650
+    - attack.s0483
+    - attack.defense_evasion
+    - attack.t1027
+    - attack.t1027.006
+    - attack.t1564
+logsource:
+    category: create_stream_hash
+    product: windows
+detection:
+    selection:
+        Image|endswith: '\explorer.exe'
+        Contents|endswith: '.zip'
+        TargetFilename|endswith:
+            - '.iso:Zone.Identifier'
+            - '.vhd:Zone.Identifier'
+            - '.img:Zone.Identifier'
+            - '.lnk:Zone.Identifier'
+    condition: selection
+falsepositives:
+    - Unknown
+level: medium

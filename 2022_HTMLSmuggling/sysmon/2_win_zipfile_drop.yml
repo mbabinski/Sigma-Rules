@@ -1,0 +1,31 @@
+title: Web Browser Creates Zip, VHD, ISO, or IMG
+id: 2e88fc48-1d6c-425d-beb8-fa58047d41dd
+status: experimental
+description: Detects browser applications creating ISO, ZIP, IMG, or VHD files, as occurs during an HTML smuggling attack where a browser decodes and executes malicious code within an HTML file. Commonly associated with QakBot and IcedID.
+references:
+    - https://blog.talosintelligence.com/html-smugglers-turn-to-svg-images/#:~:text=HTML%20smuggling%20is%20a%20technique,directly%20on%20the%20victim's%20device.
+author: Micah Babinski
+date: 2022/12/15
+tags:
+    - attack.s0650
+    - attack.s0483
+    - attack.defense_evasion
+    - attack.t1027
+    - attack.t1027.006
+logsource:
+    category: create_stream_hash
+    product: windows
+detection:
+    selection:
+        Image|endswith: 
+            - '\chrome.exe'
+            - '\firefox.exe'
+            - '\iexplore.exe'
+            - '\msedge.exe'
+            - '\MicrosoftEdgeCP.exe'
+        Contents|contains: '[ZoneTransfer]  ZoneId=3'
+        TargetFilename|contains: '.zip'
+    condition: selection
+falsepositives:
+    - Unknown
+level: medium
