@@ -1,5 +1,5 @@
 title: HTML Smuggling Activity - Chain Rule
-id: 0952f2fa-e29b-4eb5-831c-ce21520c56e3
+id: fb9495b7-5df5-48f9-8f2f-6e486115fada
 status: experimental
 description: Detects HTML smuggling-style compromise (such as HTML > ZIP > ISO/IMG/VHD > CMD/BAT/VBS > DLL). Includes rules to detect stand-alone HTML file creation, zipfile dropped by browser, ISO/IMG/VHD/LNK file extraction, followed by user-initiated process creation on an external drive.
 references:
@@ -29,8 +29,8 @@ rule:
     - 3_win_file_extraction.yml
     - 4_win_process_creation_ext_drive.yml
 group-by:
-    - ComputerName
-    - User
+    - Computer
+    - SubjectUserName
 timespan: 1h
 ordered: true
 falsepositives:

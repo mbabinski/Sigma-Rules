@@ -6,7 +6,7 @@ references:
     - https://www.socinvestigation.com/html-smuggling-phishing-attacks-on-rise-detection-response/
     - https://www.cyfirma.com/outofband/html-smuggling-a-stealthier-approach-to-deliver-malware/
 author: Micah Babinski
-date: 2022/12/178
+date: 2022/12/19
 tags:
     - attack.s0650
     - attack.s0483
@@ -24,7 +24,7 @@ detection:
         TargetFilename|endswith:
             - '.html'
             - '.htm'
-        TargetFilename|re: '^[A-Z]:\\Users\\.*\\(Downloads\\|Content\.Outlook\\|AppData\\Local\\Temp).*$'
+        TargetFilename|re: '^[A-Z]:\\Users\\.*\\(Downloads|Desktop|Content\.Outlook|AppData\\Local\\Temp)\\.*$'
     condition: selection
 falsepositives:
     - Plenty, this rule should probably only be used at the start of a chain rule for HTML smuggling or for demonstration purposes.

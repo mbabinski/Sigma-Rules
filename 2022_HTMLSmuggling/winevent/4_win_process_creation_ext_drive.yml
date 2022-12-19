@@ -1,5 +1,5 @@
-title: Suspicious User-Initiated Process Execution on External Drive (Sysmon)
-id: 2a054382-98a1-4d96-b966-ded8e5aa3a65
+title: Suspicious User-Initiated Process Execution on External Drive
+id: ff0b10c4-28c0-4663-a7e5-850c139101a8
 status: experimental
 description: Detects command/scripting interpreter-created processes executing on an external drive. This will detect common instances of malware using LNK files to obscure malicious commands for user execution. Commonly associated with QakBot and IcedID.
 references:
@@ -15,18 +15,15 @@ tags:
     - attack.t1204
     - attack.t1204.002
 logsource:
-    category: process_creation
     product: windows
+    service: security
 detection:
-    selection:
-        ParentImage|endswith: '\explorer.exe'
-        Image|endswith: 
-            - '\cmd.exe'
-            - '\powershell.exe'
-            - '\wscript.exe'
-    filter:
-        CurrentDirectory|startswith: 'C:'
-    condition: selection and not filter
+    selection_evt_type:
+        EventID: 4688
+    selection_proc_path:
+        - ParentProcessName|startswith: '\Device\CdRom0'
+        - ProcessName|startswith: '\Device\CdRom0'
+    condition: all of selection*
 falsepositives:
     - Unknown
 level: high

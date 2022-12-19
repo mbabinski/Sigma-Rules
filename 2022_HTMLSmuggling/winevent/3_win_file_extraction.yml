@@ -1,5 +1,5 @@
-title: ISO, VHD, LNK or IMG File Extracted from Zip (Sysmon)
-id: f853978d-343e-4879-ab56-dfe07f1f2f0b
+title: ISO, VHD, LNK, or IMG File Extracted from Zip
+id: c0c2d715-9066-4d6c-80c8-7f3e74780b85
 status: experimental
 description: Detects extraction of ISO, VHD, LNK, or IMG files from zip files. Commonly associated with QakBot and IcedID.
 references:
@@ -14,17 +14,18 @@ tags:
     - attack.t1027.006
     - attack.t1564
 logsource:
-    category: create_stream_hash
     product: windows
+    service: security
 detection:
     selection:
-        Image|endswith: '\explorer.exe'
-        Contents|endswith: '.zip'
-        TargetFilename|endswith:
-            - '.iso:Zone.Identifier'
-            - '.vhd:Zone.Identifier'
-            - '.img:Zone.Identifier'
-            - '.lnk:Zone.Identifier'
+        EventID: 4663
+        ObjectType: 'File'
+        AccessList: '%%4417'
+        ObjectName|endswith:
+            - '.iso'
+            - '.img'
+            - '.lnk'
+            - '.vhd'
     condition: selection
 falsepositives:
     - Unknown
