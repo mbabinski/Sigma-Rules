@@ -35,5 +35,5 @@ detection:
             - '\MicrosoftEdgeCP.exe'
     condition: selection
 falsepositives:
-    - Unknown
+    - Lots, this should only be used in conjunction with other rules which detect HTML smuggling patterns.
 level: medium
