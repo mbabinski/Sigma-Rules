@@ -4,6 +4,7 @@ status: experimental
 description: Detects extraction of ISO, VHD, LNK, or IMG files from zip files. Commonly associated with QakBot and IcedID.
 references:
     - https://blog.talosintelligence.com/html-smugglers-turn-to-svg-images/#:~:text=HTML%20smuggling%20is%20a%20technique,directly%20on%20the%20victim's%20device.
+    - https://www.malwarebytes.com/blog/news/2021/11/evasive-maneuvers-html-smuggling-explained
 author: Micah Babinski
 date: 2022/12/15
 tags:
@@ -14,17 +15,18 @@ tags:
     - attack.t1027.006
     - attack.t1564
 logsource:
-    category: create_stream_hash
+    category: file_event
     product: windows
 detection:
     selection:
-        Image|endswith: '\explorer.exe'
-        Contents|endswith: '.zip'
+        Image|endswith:
+            - '\explorer.exe'
+            - '\WinRAR.exe'
         TargetFilename|endswith:
-            - '.iso:Zone.Identifier'
-            - '.vhd:Zone.Identifier'
-            - '.img:Zone.Identifier'
-            - '.lnk:Zone.Identifier'
+            - '.iso'
+            - '.vhd'
+            - '.img'
+            - '.lnk'
     condition: selection
 falsepositives:
     - Unknown

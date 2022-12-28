@@ -1,0 +1,16 @@
+Splunk Queries - These are the originals; I modified them slightly for testing HTML Smuggling.
+
+1_win_zipfile_drop.yml
+EventID=15 Image IN ("*\\chrome.exe", "*\\brave.exe", "*\\firefox.exe", "*\\iexplore.exe", "*\\msedge.exe", "*\\MicrosoftEdgeCP.exe") Contents="*[ZoneTransfer]  ZoneId=3*" TargetFilename IN ("*.zip*", "*.rar*", "*.7z*")
+
+2_win_susp_file_extraction.yml
+EventID=11 Image IN ("*\\explorer.exe", "*\\WinRAR.exe") TargetFilename IN ("*.iso", "*.vhd", "*.img", "*.lnk")
+
+3_win_security_iso_mount.yml
+EventID=4663 ObjectServer="Security" ObjectType="File" ObjectName="\\Device\\CdRom*" NOT ObjectName="\\Device\\CdRom0\\setup.exe"
+
+4_win_process_creation_ext_drive.yml
+EventID=1 ParentImage="*\\explorer.exe" NOT CurrentDirectory="C:*" OR NOT Image="C:*"
+
+4_win_process_creation_ext_drive_old.yml
+EventID=1 ParentImage="*\\explorer.exe" NOT Image="C:*" OR (Image IN ("*\\cmd.exe", "*\\powershell.exe", "*\\wscript.exe") NOT CurrentDirectory="C:*")
