@@ -27,7 +27,7 @@ detection:
     filter:
         # the regex below will match on the typical ways by which people enable realtime monitoring
         ScriptBlockText|re: '.*Set-MpPreference.*Disable.*\s(\$false|0).*'
-    condition: selection and not filter
+    condition: selection_options_disabling_preference and not filter
 falsepositives:
     - Legitimate PowerShell scripts which need to disable MS Defender.
 level: high
