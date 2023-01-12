@@ -1,4 +1,4 @@
-title: Suspicious Registry Key Added: LanmanServer Parameters
+title: 'Suspicious Registry Key Added: LanmanServer Parameters'
 id: 9c5df39b-0fe2-450b-bc90-a1b748dca8af
 status: experimental
 description: Detects registry addition for LanmanServer MaxMpxCt. BlackCat does this to increase the number of outstanding requests allowed, such as SMB requests to distribute ransomware through an environment.

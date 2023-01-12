@@ -1,4 +1,4 @@
-title: Suspicious Registry Key Set: MaxMpxCt
+title: 'Suspicious Registry Key Set (MaxMpxCt)'
 id: 4bd730d9-37d6-4a87-b392-ffb9ab52bf21
 status: experimental
 description: Detects registry value set to change MaxMpxCt settings. BlackCat does this to increase the number of outstanding requests allowed, such as SMB requests to distribute ransomware through an environment.
