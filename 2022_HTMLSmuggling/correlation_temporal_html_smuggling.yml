@@ -1,0 +1,39 @@
+title: HTML Smuggling Activity - Chain Rule
+id: 0952f2fa-e29b-4eb5-831c-ce21520c56e3
+status: experimental
+description: Detects HTML smuggling-style compromise (such as HTML > ZIP > ISO/IMG/VHD > CMD/BAT/VBS > DLL). Includes rules to detect zipfile dropped by browser, ISO/IMG/VHD/LNK file extraction, disk image mount, followed by user-initiated process creation on an external drive.
+references:
+    - https://blog.talosintelligence.com/html-smugglers-turn-to-svg-images/#:~:text=HTML%20smuggling%20is%20a%20technique,directly%20on%20the%20victim's%20device.
+    - https://www.malwarebytes.com/blog/news/2021/11/evasive-maneuvers-html-smuggling-explained
+    - Original research and analysis performed off of QakBot intelligence gathered at https://github.com/pr0xylife/Qakbot, https://www.malware-traffic-analysis.net/, and https://github.com/executemalware/Malware-IOCs
+author: Micah Babinski
+date: 2022/12/27
+tags:
+    - attack.s0650
+    - attack.s0483
+    - attack.initial_access
+    - attack.defense_evasion
+    - attack.execution
+    - attack.t1564
+    - attack.t1566.001
+    - attack.t1566
+    - attack.t1027
+    - attack.t1027.006
+    - attack.t1059
+    - attack.t1204
+    - attack.t1204.002
+action: correlation
+type: temporal
+rule:
+    - 1_win_zipfile_drop.yml
+    - 2_win_susp_file_extraction.yml
+    - 3_win_security_iso_mount.yml
+    - 4_win_process_creation_ext_drive.yml
+group-by:
+    - ComputerName
+    - User
+timespan: 1h
+ordered: true
+falsepositives:
+    - Unknown
+level: high

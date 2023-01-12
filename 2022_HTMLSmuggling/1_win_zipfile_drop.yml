@@ -1,9 +1,10 @@
-title: Web Browser Creates Zip, VHD, ISO, or IMG
+title: Web Browser Creates Zip Archive File (Sysmon)
 id: 2e88fc48-1d6c-425d-beb8-fa58047d41dd
 status: experimental
-description: Detects browser applications creating ISO, ZIP, IMG, or VHD files, as occurs during an HTML smuggling attack where a browser decodes and executes malicious code within an HTML file. Commonly associated with QakBot and IcedID.
+description: Detects browser applications creating archive/container files such as zip, rar, or 7z, as occurs during an HTML smuggling attack where a browser decodes and executes malicious code within an HTML file. Commonly associated with QakBot and IcedID.
 references:
     - https://blog.talosintelligence.com/html-smugglers-turn-to-svg-images/#:~:text=HTML%20smuggling%20is%20a%20technique,directly%20on%20the%20victim's%20device.
+    - https://www.malwarebytes.com/blog/news/2021/11/evasive-maneuvers-html-smuggling-explained
 author: Micah Babinski
 date: 2022/12/15
 tags:
@@ -19,12 +20,16 @@ detection:
     selection:
         Image|endswith: 
             - '\chrome.exe'
+            - '\brave.exe'
             - '\firefox.exe'
             - '\iexplore.exe'
             - '\msedge.exe'
             - '\MicrosoftEdgeCP.exe'
         Contents|contains: '[ZoneTransfer]  ZoneId=3'
-        TargetFilename|contains: '.zip'
+        TargetFilename|contains:
+            - '.zip'
+            - '.rar'
+            - '.7z'
     condition: selection
 falsepositives:
     - Unknown

@@ -1,10 +1,11 @@
-title: Suspicious User-Initiated Process Execution on External Drive
+title: Suspicious User-Initiated Process Execution on External Drive (Sysmon)
 id: 2a054382-98a1-4d96-b966-ded8e5aa3a65
 status: experimental
 description: Detects command/scripting interpreter-created processes executing on an external drive. This will detect common instances of malware using LNK files to obscure malicious commands for user execution. Commonly associated with QakBot and IcedID.
 references:
     - https://blog.talosintelligence.com/html-smugglers-turn-to-svg-images/#:~:text=HTML%20smuggling%20is%20a%20technique,directly%20on%20the%20victim's%20device.
-    - Research and analysis performed off of QakBot intelligence gathered at https://github.com/pr0xylife/Qakbot
+    - https://www.malwarebytes.com/blog/news/2021/11/evasive-maneuvers-html-smuggling-explained
+    - Original research and analysis performed off of QakBot intelligence gathered at https://github.com/pr0xylife/Qakbot, https://www.malware-traffic-analysis.net/, and https://github.com/executemalware/Malware-IOCs
 author: Micah Babinski
 date: 2022/12/19
 tags:
@@ -20,13 +21,11 @@ logsource:
 detection:
     selection:
         ParentImage|endswith: '\explorer.exe'
-        Image|endswith: 
-            - '\cmd.exe'
-            - '\powershell.exe'
-            - '\wscript.exe'
-    filter:
+    filter_cwd:
         CurrentDirectory|startswith: 'C:'
-    condition: selection and not filter
+    filter_external_exe:
+        Image|startswith: 'C:'
+    condition: selection and (not filter_cwd or not filter_external_exe)
 falsepositives:
     - Unknown
 level: high
