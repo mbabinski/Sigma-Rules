@@ -1,0 +1,27 @@
+title: Impacket AtExec Suspicious Registry Modification
+id: be577827-db17-4786-b00a-347c93973662
+status: experimental
+description: Detects Atexec.py (Impacket) suspicious registry key addition.
+references:
+    - https://www.13cubed.com/downloads/impacket_exec_commands_cheat_sheet.pdf
+    - https://www.hackingarticles.in/impacket-guide-smb-msrpc/
+    - https://u0041.co/blog/post/1
+author: Micah Babinski
+date: 2023/01/08
+tags:
+    - attack.s0357
+    - attack.execution
+    - attack.t1053
+    - attack.t1053.002
+logsource:
+    product: windows
+    category: registry_add
+detection:
+    selection:
+        EventType: 'CreateKey'
+        Image|endswith: '\svchost.exe'
+        TargetObject|re: '^HKLM\\SOFTWARE\\Microsoft\\Windows\ NT\\CurrentVersion\\Schedule\\TaskCache\\Tree\\[A-Za-z]{8}$'
+    condition: selection
+falsepositives:
+    - Unknown
+level: medium

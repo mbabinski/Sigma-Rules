@@ -1,0 +1,31 @@
+title: Impacket AtExec Process Activity
+id: ceccdcd7-ab57-407c-bd8f-78b2427eb283
+status: experimental
+description: Detect Atexec.py (Impacket) usage to send command output to attacker.
+references:
+    - https://www.13cubed.com/downloads/impacket_exec_commands_cheat_sheet.pdf
+    - https://www.hackingarticles.in/impacket-guide-smb-msrpc/
+author: Micah Babinski
+date: 2023/01/08
+tags:
+    - attack.s0357
+    - attack.execution
+    - attack.t1053
+    - attack.t1053.002
+logsource:
+    product: windows
+    service: security
+    definition: 'The advanced audit policy setting "Object Access > Audit Detailed File Share" must be configured for Success/Failure'
+detection:
+    selection:
+        EventID: 4688
+        NewProcessName|endswith: '\cmd.exe'
+        CommandLine|contains|all|windash:
+            - 'cmd.exe'
+            - '/c'
+            - 2>&1
+        CommandLine|re: '^.*Temp\\[A-Za-z]{8}\.tmp.*$'
+    condition: selection
+falsepositives:
+    - Unknown
+level: high

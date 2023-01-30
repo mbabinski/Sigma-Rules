@@ -1,0 +1,25 @@
+title: Suspicious Impacket PSExec Temp Executable File Creation
+id: 2fdd6443-6ae3-432b-b1d9-971e9b1b7954
+status: experimental
+description: Detects PSExec.py (Impacket) suspicious .exe file creation in Windows directory.
+references:
+    - https://github.com/fortra/impacket/blob/impacket_0_9_24/examples/psexec.py
+    - https://www.13cubed.com/downloads/impacket_exec_commands_cheat_sheet.pdf
+author: Micah Babinski
+date: 2023/01/08
+tags:
+    - attack.s0357
+    - attack.execution
+    - attack.t1569
+    - attack.t1569.002
+logsource:
+    product: windows
+    category: file_event
+detection:
+    selection:
+        Image|endswith: 'system'
+        TargetFilename|re: '^C:\\Windows\\[A-Za-z]{8}\.exe$'
+    condition: selection
+falsepositives:
+    - Unknown
+level: medium

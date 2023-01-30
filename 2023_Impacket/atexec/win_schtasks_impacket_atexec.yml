@@ -1,0 +1,37 @@
+title: Possible Impacket AtExec Activity
+id: eb2713cd-6e7d-4813-81d0-ced79de4c7da
+status: experimental
+description: Detect Impacket atexec.py usage in Windows task scheduler logs. If detected, these events will appear to be logged simultaneously and will all contain the same eight-letter task name.
+references:
+    - https://www.13cubed.com/downloads/impacket_exec_commands_cheat_sheet.pdf
+    - https://www.hackingarticles.in/impacket-guide-smb-msrpc/
+author: Micah Babinski
+date: 2023/01/05
+tags:
+    - attack.s0357
+    - attack.execution
+    - attack.t1053
+    - attack.t1053.002
+logsource:
+    product: windows
+    service: taskscheduler
+detection:
+    selection_task_registered:
+        EventID: 106
+        Message|re: '^.*registered\sTask\sScheduler\stask\s\"\\[A-Za-z]{8}\"$'
+    selection_created_task_process:
+        EventID: 129
+        Message|re: '^.*Task\sScheduler\slaunch\stask\s\"\\[A-Za-z]{8}\"\s,\sinstance\s\"cmd\.exe\".*$'
+    selection_action_started:
+        EventID: 200
+        Message|re: '^.*Task\sScheduler\slaunched\saction\s\"cmd\.exe\"\sin\sinstance\s\"\{.*\}\"\sof\stask\s"\\[A-Za-z]{8}\"\.$'
+    selection_registration_deleted:
+        EventID: 141
+        Message|re: '^.*deleted\sTask\sScheduler\stask\s"\\[A-Za-z]{8}\"$'
+    selection_action_completed:
+        EventID: 201
+        Message|re: '^Task\sScheduler\ssuccessfully\scompleted\stask\s"\\[A-Za-z]{8}\".*action\s\"cmd\.exe\"\swith\sreturn\scode\s\d\.$'
+    condition: 1 of selection*
+falsepositives:
+    - Unknown
+level: low

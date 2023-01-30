@@ -1,0 +1,28 @@
+Parsing Sigma rules
+
+***Impacket Tool Execution (Compiled)***
+
+Image IN ("*\\goldenPac*", "*\\karmaSMB*", "*\\kintercept*", "*\\ntlmrelayx*", "*\\rpcdump*", "*\\samrdump*", "*\\secretsdump*", "*\\smbexec*", "*\\smbrelayx*", "*\\wmiexec*", "*\\wmipersist*") OR Image IN ("*\\atexec_windows.exe", "*\\dcomexec_windows.exe", "*\\dpapi_windows.exe", "*\\findDelegation_windows.exe", "*\\GetADUsers_windows.exe", "*\\GetNPUsers_windows.exe", "*\\getPac_windows.exe", "*\\getST_windows.exe", "*\\getTGT_windows.exe", "*\\GetUserSPNs_windows.exe", "*\\ifmap_windows.exe", "*\\mimikatz_windows.exe", "*\\netview_windows.exe", "*\\nmapAnswerMachine_windows.exe", "*\\opdump_windows.exe", "*\\psexec_windows.exe", "*\\rdp_check_windows.exe", "*\\sambaPipe_windows.exe", "*\\smbclient_windows.exe", "*\\smbserver_windows.exe", "*\\sniffer_windows.exe", "*\\sniff_windows.exe", "*\\split_windows.exe", "*\\ticketer_windows.exe")
+
+***Impacket Lateralization Detection***
+
+(ParentImage IN ("*\\wmiprvse.exe", "*\\mmc.exe", "*\\explorer.exe", "*\\services.exe") CommandLine="*cmd.exe*" CommandLine="*/Q*" CommandLine="*/c*" CommandLine="*\\\\127.0.0.1\\*" CommandLine="*&1*") OR (ParentCommandLine IN ("*svchost.exe -k netsvcs*", "*taskeng.exe*") CommandLine="*cmd.exe*" CommandLine="*/C*" CommandLine="*Windows\\Temp\\*" CommandLine="*&1*")
+
+***Impacket PsExec Execution***
+
+Channel="Security" EventCode=5145 ShareName="\\\\\*\\IPC$" RelativeTargetName IN ("*RemCom_stdin*", "*RemCom_stdout*", "*RemCom_stderr*")
+
+***Possible Impacket SecretDump Remote Activity***
+
+Channel="Security" EventCode=5145 ShareName="\\\\\*\\ADMIN$" RelativeTargetName="*SYSTEM32\\*" RelativeTargetName="*.tmp*"
+
+***Possible Impacket SecretDump Remote Activity - Zeek***
+
+path="*\\*" path="*ADMIN$*" name="*SYSTEM32\\*" name="*.tmp"
+
+
+2023-01-06 04:43:30	201	Action completed	Task Scheduler successfully completed task "\gsZEyxdr" , instance "{37807CE7-11A2-4862-AC22-F8E842668FC2}" , action "cmd.exe" with return code 0.
+2023-01-06 04:43:30	141	Task registration deleted	User "WINDOMAIN\vagrant"  deleted Task Scheduler task "\gsZEyxdr"
+2023-01-06 04:43:30	200	Action started	Task Scheduler launched action "cmd.exe" in instance "{37807CE7-11A2-4862-AC22-F8E842668FC2}" of task "\gsZEyxdr".
+2023-01-06 04:43:30	129	Created Task Process	Task Scheduler launch task "\gsZEyxdr" , instance "cmd.exe"  with process ID 5228.
+2023-01-06 04:43:30	106	Task registered	User "WINDOMAIN\vagrant"  registered Task Scheduler task "\gsZEyxdr"

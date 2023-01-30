@@ -1,0 +1,25 @@
+title: Process Creation With Double File Extension
+id: dd980d89-f015-4d55-b762-ef200843308c
+status: experimental
+description: Detects process creation utilizing double file extensions, a common method of masquerading or obfuscating a file type in malware delivery. Observed in early 2023 AsyncRAT/Quasar malware delivery using malicious OneNote files.
+references:
+    - https://www.pcmag.com/encyclopedia/term/double-extension
+    - Original research by Micah Babinski
+author: Micah Babinski, @micahbabinski
+date: 2023/01/30
+tags:
+    - attack.defense_evasion
+    - attack.t1036
+    - attack.t1036.007
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection1:
+        ParentImage|re: ^.*\\[a-zA-Z0-9]*\.[a-zA-Z0-9]*\.[a-zA-Z0-9]*$
+    selection2:
+        Image|re: ^.*\\[a-zA-Z0-9]*\.[a-zA-Z0-9]*\.[a-zA-Z0-9]*$
+    condition: selection1 or selection2
+falsepositives:
+    - Unknown
+level: high

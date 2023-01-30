@@ -1,0 +1,26 @@
+title: DNS Query From Process with Double File Extension
+id: 42f77908-d267-41ee-bf58-623f5d101d91
+status: experimental
+description: Detects DNS queries from processes with double file extensions, a common method of masquerading or obfuscating a file type in malware delivery. Observed in early 2023 AsyncRAT/Quasar malware delivery using malicious OneNote files.
+references:
+    - https://isc.sans.edu/diary/rss/29470
+    - Home lab research by Micah Babinski
+author: Micah Babinski, @micahbabinski
+date: 2023/01/30
+tags:
+    - attack.defense_evasion
+    - attack.command_and_control
+    - attack.t1218
+    - attack.t1218.009
+    - attack.t1071
+    - attack.t1071.004
+logsource:
+    category: dns_query
+    product: windows
+detection:
+    selection:
+        Image|re: ^.*\\[a-zA-Z0-9]*\.[a-zA-Z0-9]*\.[a-zA-Z0-9]*$
+    condition: selection
+falsepositives:
+    - Unknown
+level: high

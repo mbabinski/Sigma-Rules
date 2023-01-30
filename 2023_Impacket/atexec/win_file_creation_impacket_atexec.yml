@@ -1,0 +1,26 @@
+title: Impacket AtExec Suspicious Temp File Creation
+id: 22514cf3-83dd-4949-931e-69a6d6abe154
+status: experimental
+description: Detects Atexec.py (Impacket) suspicious file creation in Windows temp directory.
+references:
+    - https://www.13cubed.com/downloads/impacket_exec_commands_cheat_sheet.pdf
+    - https://www.hackingarticles.in/impacket-guide-smb-msrpc/
+    - https://u0041.co/blog/post/1
+author: Micah Babinski
+date: 2023/01/08
+tags:
+    - attack.s0357
+    - attack.execution
+    - attack.t1053
+    - attack.t1053.002
+logsource:
+    product: windows
+    category: file_event
+detection:
+    selection:
+        Image|endswith: '\cmd.exe'
+        TargetFilename|re: '^C:\\Windows\\Temp\\[A-Za-z]{8}\.tmp$'
+    condition: selection
+falsepositives:
+    - Unknown
+level: low

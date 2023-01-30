@@ -1,0 +1,31 @@
+title: Suspicious Process Injection to RegAsm
+id: c94e87b8-7529-4582-9572-96cd61f7464c
+status: experimental
+description: Detects potential process injection of RegAsm.exe as indicated by lack of command-line arguments. This was observed in a recent campaign to distribute AsyncRAT and Quasar RAT using malicious OneNot files.
+references:
+    - https://learn.microsoft.com/en-us/dotnet/framework/tools/regasm-exe-assembly-registration-tool
+    - https://any.run/report/6c1e62385d660ca43e024d461154fbb4805e429cdf7850d19510d7f69533739e/031d98bb-3696-4369-8202-2130e87f93d3
+author: Micah Babinski (@micahbabinski)
+date: 2023/01/29
+tags:
+    - attack.defense_evasion
+    - attack.t1218
+    - attack.t1218.009
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection1:
+        ParentImage|endswith: '\RegAsm.exe'
+        ParentCommandLine|endswith:
+            - 'RegAsm.exe'
+            - 'RegAsm.exe"'
+    selection2:
+        Image|endswith: '\RegAsm.exe'
+        CommandLine|endswith:
+            - 'RegAsm.exe'
+            - 'RegAsm.exe"'
+    condition: selection1 or selection2
+falsepositives:
+    - Unknown
+level: high

@@ -1,0 +1,31 @@
+title: Possible Impacket DCOMExec Connection Attempt - Zeek
+id: f6127748-4656-435f-b07c-c624f8f18812
+status: experimental
+description: Detects attempts to connect via DCOM Endpoints, as used by Impacket DCOMExec. This event will occur on successful or unsuccessful attempts using any of the three DCOMExec -object options.
+references:
+    - https://github.com/fortra/impacket/blob/master/impacket/dcerpc/v5/dcomrt.py
+    - https://tools.thehacker.recipes/impacket
+    - https://riccardoancarani.github.io/2020-05-10-hunting-for-impacket/
+    - https://wadcoms.github.io/wadcoms/Impacket-DCOMExec/
+author: Micah Babinski
+date: 2023/01/08
+tags:
+    - attack.s0357
+    - attack.execution
+    - attack.t1021
+    - attack.t1021.003
+logsource:
+    product: zeek
+    service: dce_rpc
+detection:
+    selection:
+        operation: RemoteCreateInstance
+        endpoint: IRemoteSCMActivator
+        id.resp_p: 135
+        named_pipe: '135'
+    condition: selection
+fields:
+    - id.orig_h
+falsepositives:
+    - Unknown
+level: low
