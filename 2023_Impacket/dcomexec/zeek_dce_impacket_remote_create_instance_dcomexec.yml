@@ -12,6 +12,7 @@ date: 2023/01/08
 tags:
     - attack.s0357
     - attack.execution
+    - attack.lateral_movement
     - attack.t1021
     - attack.t1021.003
 logsource:

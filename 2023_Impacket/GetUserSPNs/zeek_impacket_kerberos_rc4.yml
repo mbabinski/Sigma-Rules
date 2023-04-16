@@ -1,0 +1,30 @@
+title: Possible Impacket GetUserSPNs Activity
+id: 73822599-97d8-411f-8ee1-e57ecac118c7
+status: experimental
+description: Detects attempts to create vulnerable Kerberos Ticket Granting Service (TGS) tickets using the RC4-HMAC encryption type.
+references:
+    - https://www.blackhillsinfosec.com/impacket-defense-basics-with-an-azure-lab/
+    - https://github.com/fortra/impacket/blob/impacket_0_10_0/examples/GetUserSPNs.py
+author: Micah Babinski
+date: 2023/04/13
+tags:
+    - attack.s0357
+    - attack.credential_access
+    - attack.t1558
+    - attack.t1558.003
+logsource:
+    product: zeek
+    service: kerberos
+detection:
+    selection:
+        cipher: 'rc4-hmac'
+        request_type: 'TGS'
+        success: true
+    condition: selection
+fields:
+    - id.orig_h
+    - client
+    - service
+falsepositives:
+    - Unknown
+level: low

@@ -1,5 +1,5 @@
 title: Suspicious Impacket PSExec Temp Executable File Creation
-id: 2fdd6443-6ae3-432b-b1d9-971e9b1b7954
+id: b0ceadcb-ebc8-455e-9541-19d90ad4502c
 status: experimental
 description: Detects PSExec.py (Impacket) suspicious .exe file creation in Windows directory.
 references:

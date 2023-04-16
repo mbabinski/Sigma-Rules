@@ -1,0 +1,23 @@
+title: Suspicious Exe File Event With System Image
+id: 2ace112a-1717-4648-b0f8-51796f36c58e
+status: experimental
+description: Detects potential SMB file creation activity associated with Impacket smbclient.py.
+references:
+    - https://github.com/fortra/impacket/blob/impacket_0_10_0/examples/smbclient.py
+author: Micah Babinski
+date: 2023/04/16
+tags:
+    - attack.lateral_movement
+    - attack.t1105
+logsource:
+    product: windows
+    category: file_event
+detection:
+    selection:
+        TargetFilename|endswith: '.exe'
+        Image: System
+        User: 'NT Authority\Sytem'
+    condition: selection
+falsepositives:
+    - Unknown
+level: low

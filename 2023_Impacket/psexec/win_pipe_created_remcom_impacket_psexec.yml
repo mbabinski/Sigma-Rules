@@ -1,5 +1,5 @@
 title: Suspicious Impacket Pipe Creation - Psexec
-id: 7481cbf3-3ec5-4987-85f4-48b8e104497d
+id: 019a9cea-6b05-4ea3-9aa2-f8ff6f9e92d5
 status: experimental
 description: Detects named pipes created as a result of Impacket PSExec.py usage. 
 references:

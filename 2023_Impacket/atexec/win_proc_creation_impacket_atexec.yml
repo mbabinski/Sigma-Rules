@@ -15,7 +15,6 @@ tags:
 logsource:
     product: windows
     service: security
-    definition: 'The advanced audit policy setting "Object Access > Audit Detailed File Share" must be configured for Success/Failure'
 detection:
     selection:
         EventID: 4688
