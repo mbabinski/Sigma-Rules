@@ -1,0 +1,28 @@
+title: Possible Raspberry Robin DLL Download Using msiexec (RedCanary Threat Detection Report)
+id: 8e401ffe-ca9b-4bb2-87aa-8e285811d43f
+status: experimental
+description: Detects msiexec used to download a potentially-malicious Raspberry Robin DLL. Part of the RedCanary 2023 Threat Detection Report.
+references:
+    - https://redcanary.com/threat-detection-report/threats/raspberry-robin/
+author: RedCanary, Sigma formatting by Micah Babinski
+date: 2022/11/17
+tags:
+    - attack.initial_access
+    - attack.defense_evasion
+    - attack.t1566
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection_img:
+        Image|endswith: '\msiexec.exe'
+    selection_cmd_1:
+        CommandLine|contains:
+            - 'http:'
+            - 'https:'
+    selection_cmd_2:
+        CommandLine|contains|windash: '/q'
+    condition: all of selection_*
+falsepositives:
+    - Unknown
+level: low
