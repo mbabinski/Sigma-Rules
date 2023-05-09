@@ -1,0 +1,23 @@
+title: Emotet: Regsvr32 Execution from Microsoft Excel (RedCanary Threat Detection Report)
+id: 8e401ffe-ca9b-4bb2-87aa-8e285811d43f
+status: experimental
+description: Detects Regsvr32 execution from Excel, a technique associated with Emotet. Part of the RedCanary 2023 Threat Detection Report.
+references:
+    - https://redcanary.com/threat-detection-report/threats/emotet/
+author: RedCanary, Sigma formatting by Micah Babinski
+date: 2022/11/17
+tags:
+    - attack.initial_access
+    - attack.defense_evasion
+    - attack.t1566
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        ParentImage|endswith: '\excel.exe'
+        Image|endswith: '\regsvr32.exe'
+    condition: selection
+falsepositives:
+    - Unknown
+level: low

@@ -1,0 +1,28 @@
+title: Yellow Cockatoo Powershell Startup Folder Persistence (RedCanary Threat Detection Report)
+id: 8e401ffe-ca9b-4bb2-87aa-8e285811d43f
+status: experimental
+description: |
+    Detects .lnk files created by Powershell in the startup folder. Associated with (but not unique to)
+    Yellow Cockatoo, AKA Solarmarker/Jupyter Stealer. Part of the RedCanary 2023 Threat Detection Report.
+references:
+    - https://redcanary.com/threat-detection-report/threats/yellow-cockatoo/
+author: RedCanary, Sigma formatting by Micah Babinski
+date: 2022/11/17
+tags:
+    - attack.initial_access
+    - attack.defense_evasion
+    - attack.t1566
+logsource:
+    category: file_event
+    product: windows
+detection:
+    selection_img:
+        Image|endswith: '\powershell.exe'
+    selection_filepath:
+        TargetFilename|contains: 'start menu\programs\startup'
+    selection_file_ext:
+        TargetFilename|endswith: '.lnk'
+    condition: all of selection*
+falsepositives:
+    - Unknown
+level: low
