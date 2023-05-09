@@ -1,0 +1,25 @@
+title: Process Execution from Admin Share (RedCanary Threat Detection Report)
+id: 8e401ffe-ca9b-4bb2-87aa-8e285811d43f
+status: experimental
+description: Detects processes executing from an Admin Share. Part of the RedCanary 2023 Threat Detection Report.
+references:
+    - https://redcanary.com/threat-detection-report/techniques/windows-admin-shares/
+author: RedCanary, Sigma formatting by Micah Babinski
+date: 2022/11/17
+tags:
+    - attack.initial_access
+    - attack.defense_evasion
+    - attack.t1566
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        CommandLine|contains:
+            - 'ADMIN$'
+            - 'IPC$'
+            - 'C$'
+    condition: selection
+falsepositives:
+    - Depends; may require baselining and exclusions for legitimate use.
+level: low
