@@ -1,0 +1,33 @@
+title: Find Binary Searching for Executables with Setuid or Setguid Bit (RedCanary Threat Detection Report)
+id: 8e401ffe-ca9b-4bb2-87aa-8e285811d43f
+status: experimental
+description: |
+    Detects search for setuid or setgid binaries. This rule looks specifically for execution of the find 
+    binary searching for executables with the setuid or setgid bit set. Part of the RedCanary 2023 
+    Threat Detection Report.
+references:
+    - https://redcanary.com/threat-detection-report/techniques/setuid-setgid/
+author: RedCanary, Sigma formatting by Micah Babinski
+date: 2022/11/17
+tags:
+    - attack.initial_access
+    - attack.defense_evasion
+    - attack.t1566
+logsource:
+    category: process_creation
+    product: linux
+detection:
+    selection_1:
+        Image|contains: 'find'
+    selection_2:
+        CommandLine|contains: '-perm'
+    selection_3:
+        CommandLine|contains:
+            - '4000'
+            - '2000'
+            - 'u=s'
+            - 'g=s'
+    condition: all of selection_*
+falsepositives:
+    - Unknown
+level: low

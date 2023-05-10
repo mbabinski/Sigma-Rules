@@ -1,0 +1,29 @@
+title: Command Shell Suspicious Process Ancestry (RedCanary Threat Detection Report)
+id: 8e401ffe-ca9b-4bb2-87aa-8e285811d43f
+status: experimental
+description: Detects IIS worker process spawning command shell. Part of the RedCanary 2023 Threat Detection Report.
+references:
+    - https://redcanary.com/threat-detection-report/techniques/windows-command-shell/
+author: RedCanary, Sigma formatting by Micah Babinski
+date: 2022/11/17
+tags:
+    - attack.initial_access
+    - attack.defense_evasion
+    - attack.t1566
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        ParentImage|endswith:
+            - '\w3wp.exe'
+            - '\wmiprvse.exe'
+        Image|endswith: '\cmd.exe'
+        CommandLine|contains:
+            - 'http://'
+            - 'https://'
+            - 'echo'
+    condition: selection
+falsepositives:
+    - Unknown
+level: low
