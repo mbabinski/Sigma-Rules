@@ -1,0 +1,26 @@
+title: Rundll32 Without a Command Line (RedCanary Threat Detection Report)
+id: 2a2bd094-ecd0-4b19-afb7-c2547b0bdf30
+status: experimental
+description: Detects instances of Rundll32 without a command line spawning child processes. Part of the RedCanary 2023 Threat Detection Report.
+references:
+    - https://redcanary.com/threat-detection-report/techniques/rundll32/
+author: RedCanary, Sigma formatting by Micah Babinski
+date: 2023/05/10
+tags:
+    - attack.defense_evasion
+    - attack.t1218.011
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        ParentImage|endswith: '\rundll32.exe'
+        ParentCommandLine:
+            - 'rundll32.exe'
+            - 'rundll32'
+            - ''
+            - null
+    condition: selection
+falsepositives:
+    - Unknown
+level: low

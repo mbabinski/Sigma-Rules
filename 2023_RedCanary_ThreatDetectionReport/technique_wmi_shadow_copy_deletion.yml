@@ -1,0 +1,24 @@
+title: WMI Shadow Copy Deletion (RedCanary Threat Detection Report)
+id: 31b52a76-ef7a-40dd-8bb1-9c1671f04d0a
+status: experimental
+description: Detects wmic shadow copy deletion activity. Part of the RedCanary 2023 Threat Detection Report.
+references:
+    - https://redcanary.com/threat-detection-report/techniques/windows-management-instrumentation/
+author: RedCanary, Sigma formatting by Micah Babinski
+date: 2023/05/10
+tags:
+    - attack.execution
+    - attack.t1047
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        Image|endswith: '\wmic.exe'
+        CommandLine|contains|all:
+            - 'shadowcopy'
+            - 'delete'
+    condition: selection
+falsepositives:
+    - Unknown.
+level: low

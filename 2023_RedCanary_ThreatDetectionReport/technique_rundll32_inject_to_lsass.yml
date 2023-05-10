@@ -1,0 +1,22 @@
+title: Rundll32 Injection into LSASS (RedCanary Threat Detection Report)
+id: 7aa20f5c-6100-46c9-8885-427110e0c0e5
+status: experimental
+description: Detects instances where Rundll32 opens a cross process handle into LSASS to collect credentials. Part of the RedCanary 2023 Threat Detection Report.
+references:
+    - https://redcanary.com/threat-detection-report/techniques/rundll32/
+author: RedCanary, Sigma formatting by Micah Babinski
+date: 2023/05/10
+tags:
+    - attack.defense_evasion
+    - attack.t1218.011
+logsource:
+    category: process_access
+    product: windows
+detection:
+    selection:
+        SourceImage|endswith: '\rundll32.exe'
+        TargetImage|endswith: '\lsass.exe'
+    condition: selection
+falsepositives:
+    - Unknown
+level: low

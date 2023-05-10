@@ -1,0 +1,22 @@
+title: Rundll32 Dumping Credentials with MiniDump Function (RedCanary Threat Detection Report)
+id: b1bab1c9-9dc4-499e-aa9e-5c1b707c21e1
+status: experimental
+description: Detects processes that seem to be rundll32.exe along with a command line containing the term MiniDump. Part of the RedCanary 2023 Threat Detection Report.
+references:
+    - https://redcanary.com/threat-detection-report/techniques/lsass-memory/
+author: RedCanary, Sigma formatting by Micah Babinski
+date: 2023/05/10
+tags:
+    - attack.credential_access
+    - attack.t1003.001
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        Image|endswith: '\rundll32.exe'
+        CommandLine|contains: 'MiniDump'
+    condition: selection
+falsepositives:
+    - Unknown
+level: low

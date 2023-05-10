@@ -1,0 +1,24 @@
+title: WMIC Unusual Module Loads (RedCanary Threat Detection Report)
+id: 674d5957-41a2-47df-ad91-1833379632a6
+status: experimental
+description: Detects the wmic process module loads potentially to perform application control bypasses. Part of the RedCanary 2023 Threat Detection Report.
+references:
+    - https://redcanary.com/threat-detection-report/techniques/windows-management-instrumentation/
+author: RedCanary, Sigma formatting by Micah Babinski
+date: 2023/05/10
+tags:
+    - attack.execution
+    - attack.t1047
+logsource:
+    category: image_load
+    product: windows
+detection:
+    selection:
+        Image|endswith: '\wmic.exe'
+        ImageLoaded|endswith:
+            - '\jscript.dll'
+            - '\vbscript.dll'
+    condition: selection
+falsepositives:
+    - Unknown
+level: low

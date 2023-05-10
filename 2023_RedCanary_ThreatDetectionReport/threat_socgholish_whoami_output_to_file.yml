@@ -1,15 +1,14 @@
 title: SocGholish Script File Whoami Output to File (RedCanary Threat Detection Report)
-id: 8e401ffe-ca9b-4bb2-87aa-8e285811d43f
+id: 0886986b-47e9-41e8-87c7-41b202503b24
 status: experimental
 description: Detects wscript spawning CMD which in turn runs whoami, with the output of the command directed to a file. Part of the RedCanary 2023 Threat Detection Report.
 references:
     - https://redcanary.com/threat-detection-report/threats/socgholish/#threat-socgholish
 author: RedCanary, Sigma formatting by Micah Babinski
-date: 2022/11/17
+date: 2023/05/10
 tags:
-    - attack.initial_access
-    - attack.defense_evasion
-    - attack.t1566
+    - attack.discovery
+    - attack.t1033
 logsource:
     category: process_creation
     product: windows

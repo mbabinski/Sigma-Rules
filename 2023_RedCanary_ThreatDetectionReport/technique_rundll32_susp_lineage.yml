@@ -1,0 +1,32 @@
+title: Rundll32 Suspicious Process Lineage (RedCanary Threat Detection Report)
+id: d4ae7bf0-8325-4a1f-9d72-0da717d9d757
+status: experimental
+description: Detects instances of Rundll32 being spawned by unusual or suspicious parent processes. Part of the RedCanary 2023 Threat Detection Report.
+references:
+    - https://redcanary.com/threat-detection-report/techniques/rundll32/
+author: RedCanary, Sigma formatting by Micah Babinski
+date: 2023/05/10
+tags:
+    - attack.defense_evasion
+    - attack.t1218.011
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        Image|endswith: '\rundll32.exe'
+        ParentImage|endswith:
+            - '\winword.exe'
+            - '\excel.exe'
+            - '\msaccess.exe'
+            - '\lsass.exe'
+            - '\taskeng.exe'
+            - '\winlogon.exe'
+            - '\schtasks.exe'
+            - '\regsvr32.exe'
+            - '\wmiprvse.exe'
+            - '\wsmprovhost.exe'
+    condition: selection
+falsepositives:
+    - Unknown
+level: low

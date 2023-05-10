@@ -1,0 +1,22 @@
+title: Powershell Base64 Encoding (RedCanary Threat Detection Report)
+id: 4becc177-8fc7-40b4-aa12-ee55202bbe95
+status: experimental
+description: Detects the execution of powershell.exe with base64 Option. Part of the RedCanary 2023 Threat Detection Report.
+references:
+    - https://redcanary.com/threat-detection-report/techniques/powershell/
+author: RedCanary, Sigma formatting by Micah Babinski
+date: 2023/05/10
+tags:
+    - attack.execution
+    - attack.t1059.001
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        Image|endswith: '\powershell.exe'
+        CommandLine|contains: 'base64'
+    condition: selection
+falsepositives:
+    - Unknown
+level: low

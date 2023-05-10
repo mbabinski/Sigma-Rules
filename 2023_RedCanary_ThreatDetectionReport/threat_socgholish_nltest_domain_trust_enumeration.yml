@@ -1,15 +1,14 @@
 title: SocGholish NLTest Domain Trust Enumeration (RedCanary Threat Detection Report)
-id: 8e401ffe-ca9b-4bb2-87aa-8e285811d43f
+id: cdd824c2-ebda-404e-ad62-b2acf251976a
 status: experimental
 description: Detects domain trust enumeration with nltest.exe, a procedure associated with SocGholish. Part of the RedCanary 2023 Threat Detection Report.
 references:
     - https://redcanary.com/threat-detection-report/threats/socgholish/#threat-socgholish
 author: RedCanary, Sigma formatting by Micah Babinski
-date: 2022/11/17
+date: 2023/05/10
 tags:
-    - attack.initial_access
-    - attack.defense_evasion
-    - attack.t1566
+    - attack.discovery
+    - attack.t1482
 logsource:
     category: process_creation
     product: windows

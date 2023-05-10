@@ -1,15 +1,13 @@
 title: Mimikatz .kirbi File Creation (RedCanary Threat Detection Report)
-id: 8e401ffe-ca9b-4bb2-87aa-8e285811d43f
+id: 3f5c1eae-a9ef-44a2-bd04-a8a0e3762ec3
 status: experimental
 description: Detects .kirbi files created, commonly associated with Mimikatz. Part of the RedCanary 2023 Threat Detection Report.
 references:
     - https://redcanary.com/threat-detection-report/threats/mimikatz/
 author: RedCanary, Sigma formatting by Micah Babinski
-date: 2022/11/17
+date: 2023/05/10
 tags:
-    - attack.initial_access
-    - attack.defense_evasion
-    - attack.t1566
+    - attack.s0002
 logsource:
     category: file_event
     product: windows

@@ -1,0 +1,22 @@
+title: Rundll32 Application Bypass with DllRegisterServer Function (RedCanary Threat Detection Report)
+id: f6d0c39a-96fe-45c5-b3c8-7dbea2a3f34c
+status: experimental
+description: Detects the DllRegisterServer export function implemented with Rundll32. Part of the RedCanary 2023 Threat Detection Report.
+references:
+    - https://redcanary.com/threat-detection-report/techniques/rundll32/
+author: RedCanary, Sigma formatting by Micah Babinski
+date: 2023/05/10
+tags:
+    - attack.defense_evasion
+    - attack.t1218.011
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        Image|endswith: '\rundll32.exe'
+        CommandLine|contains: 'DllRegisterServer'
+    condition: selection
+falsepositives:
+    - Unknown
+level: low

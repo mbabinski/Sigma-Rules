@@ -1,7 +1,9 @@
-title: Command Shell Suspicious Process Ancestry (RedCanary Threat Detection Report)
-id: 60cb2beb-d2ba-4a47-ad68-e97576985c70
+title: Service Control Manager Spawning Command Shell (RedCanary Threat Detection Report)
+id: 80f850be-12ea-4bb8-b000-6e485dc821f5
 status: experimental
-description: Detects IIS worker process spawning command shell. Part of the RedCanary 2023 Threat Detection Report.
+description: |
+    Detects suspect command line strings in CMD processes spawned by services.exe. 
+    Part of the RedCanary 2023 Threat Detection Report.
 references:
     - https://redcanary.com/threat-detection-report/techniques/windows-command-shell/
 author: RedCanary, Sigma formatting by Micah Babinski
@@ -14,14 +16,11 @@ logsource:
     product: windows
 detection:
     selection:
-        ParentImage|endswith:
-            - '\w3wp.exe'
-            - '\wmiprvse.exe'
+        ParentImage|endswith: '\services.exe'
         Image|endswith: '\cmd.exe'
-        CommandLine|contains:
-            - 'http://'
-            - 'https://'
+        CommandLine|contains|windash:
             - 'echo'
+            - '/c'
     condition: selection
 falsepositives:
     - Unknown

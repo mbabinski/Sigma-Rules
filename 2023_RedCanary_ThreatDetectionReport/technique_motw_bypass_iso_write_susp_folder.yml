@@ -1,15 +1,14 @@
 title: ISO File Write to Suspicious Folder (RedCanary Threat Detection Report)
-id: 8e401ffe-ca9b-4bb2-87aa-8e285811d43f
+id: bedf5cac-6332-4463-98ab-818f9e31234c
 status: experimental
 description: Detects files written to user downloads folder or appdata folder, associated with Mark-of-the-Web Bypass. Part of the RedCanary 2023 Threat Detection Report.
 references:
     - https://redcanary.com/threat-detection-report/techniques/mark-of-the-web-bypass/
 author: RedCanary, Sigma formatting by Micah Babinski
-date: 2022/11/17
+date: 2023/05/10
 tags:
-    - attack.initial_access
     - attack.defense_evasion
-    - attack.t1566
+    - attack.t1553.005
 logsource:
     category: file_event
     product: windows

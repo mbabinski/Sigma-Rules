@@ -1,15 +1,14 @@
 title: Potential Gamarue DLL Filename (RedCanary Threat Detection Report)
-id: 8e401ffe-ca9b-4bb2-87aa-8e285811d43f
+id: 62989cd5-4d35-4ce8-a1fd-73673c25d0f4
 status: experimental
 description: Detects Gamarue DLL filename in command line strings. Part of the RedCanary 2023 Threat Detection Report.
 references:
     - https://redcanary.com/threat-detection-report/threats/gamarue/
 author: RedCanary, Sigma formatting by Micah Babinski
-date: 2022/11/17
+date: 2023/05/10
 tags:
-    - attack.initial_access
-    - attack.defense_evasion
-    - attack.t1566
+    - attack.privilege_escalation
+    - attack.t1055.001
 logsource:
     category: process_creation
     product: windows

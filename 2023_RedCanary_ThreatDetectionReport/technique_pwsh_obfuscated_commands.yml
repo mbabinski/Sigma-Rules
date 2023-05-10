@@ -1,20 +1,20 @@
-title: Command Shell Obfuscated Commands (RedCanary Threat Detection Report)
-id: b6aed14c-95a2-4e03-9949-70bc73c08b64
+title: Powershell Obfuscated Commands (RedCanary Threat Detection Report)
+id: df39fa21-d6b5-490e-85ef-d9b379707ac8
 status: experimental
-description: Detects command line strings with high numbers of suspicious characters, potentially for obfuscation. Part of the RedCanary 2023 Threat Detection Report.
+description: Detects powershell command line strings with high numbers of suspicious characters, potentially for obfuscation. Part of the RedCanary 2023 Threat Detection Report.
 references:
-    - https://redcanary.com/threat-detection-report/techniques/windows-command-shell/
+    - https://redcanary.com/threat-detection-report/techniques/powershell/
 author: RedCanary, Sigma formatting by Micah Babinski
 date: 2023/05/10
 tags:
     - attack.execution
-    - attack.t1059.003
+    - attack.t1059.001
 logsource:
     category: process_creation
     product: windows
 detection:
     selection:
-        Image|endswith: '\cmd.exe'
+        Image|endswith: '\powershell.exe'
         # regex below looks for eight or more total instances of the suspicious characters
         CommandLine|re: '^([^^=%![(; ]*[\^=%![(; ]){8,}[^^=%![(; ]*$'
     condition: selection

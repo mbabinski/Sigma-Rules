@@ -1,0 +1,25 @@
+title: Windows Scheduled Task Create Shell (RedCanary Threat Detection Report)
+id: a916cc1b-7f0e-46b4-9c77-c80b1f2ba26b
+status: experimental
+description: Detects attempts to establish persistence using schtasks and command shell. Part of the RedCanary 2023 Threat Detection Report.
+references:
+    - https://redcanary.com/threat-detection-report/techniques/windows-command-shell/
+author: RedCanary, Sigma formatting by Micah Babinski
+date: 2023/05/10
+tags:
+    - attack.execution
+    - attack.t1059.003
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        Image|endswith: '\schtasks.exe'
+        CommandLine|contains|windash:
+            - 'create'
+            - 'cmd'
+            - '/c'
+    condition: selection
+falsepositives:
+    - Unknown
+level: low

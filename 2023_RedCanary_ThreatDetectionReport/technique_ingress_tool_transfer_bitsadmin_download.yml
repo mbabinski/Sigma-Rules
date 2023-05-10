@@ -1,0 +1,26 @@
+title: BITSAdmin Downloading Malicious Binaries (RedCanary Threat Detection Report)
+id: 0a6b7cc5-f28e-4795-94bf-48112d89664b
+status: experimental
+description: |
+    Detects attempts to bypass security controls using bitsadmin.exe to download malicious code. 
+    Part of the RedCanary 2023 Threat Detection Report.
+references:
+    - https://redcanary.com/threat-detection-report/techniques/ingress-tool-transfer/
+author: RedCanary, Sigma formatting by Micah Babinski
+date: 2023/05/10
+tags:
+    - attack.command_and_control
+    - attack.t1105
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        Image|endswith: '\bitsadmin.exe'
+        CommandLine|contains|:
+            - 'download'
+            - 'transfer'
+    condition: selection
+falsepositives:
+    - Unknown
+level: low

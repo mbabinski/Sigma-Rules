@@ -1,0 +1,35 @@
+title: Abnormal LSASS Child and Parent Process Relationships (RedCanary Threat Detection Report)
+id: 1afbb031-8721-45b3-b2ed-856515f68558
+status: experimental
+description: |
+    Detects potential LSASS abuse based on unusual parent-child process lineage patterns. 
+    Part of the RedCanary 2023 Threat Detection Report.
+references:
+    - https://redcanary.com/threat-detection-report/techniques/lsass-memory/
+author: RedCanary, Sigma formatting by Micah Babinski
+date: 2023/05/10
+tags:
+    - attack.credential_access
+    - attack.t1003.001
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection_1:
+        ParentImage|endswith: '\lsass.exe'
+        Image|endswith:
+            - '\cmd.exe'
+            - '\powershell.exe'
+            - '\regsvr32.exe'
+            - '\mstsc.exe'
+            - '\dllhost.exe'
+    selection_2:
+        ParentImage|endswith:
+            - '\explorer.exe'
+            - '\cmd.exe'
+            - '\lsass.exe'
+        Image|endswith: '\lsass.exe'
+    condition: 1 of selection*
+falsepositives:
+    - Unknown
+level: low

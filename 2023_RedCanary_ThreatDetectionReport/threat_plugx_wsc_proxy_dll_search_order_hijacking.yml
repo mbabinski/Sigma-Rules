@@ -1,5 +1,5 @@
 title: PlugX DLL Search Order Hijacking Using Avast wsc_proxy (RedCanary Threat Detection Report)
-id: 8e401ffe-ca9b-4bb2-87aa-8e285811d43f
+id: c518ac74-2e2b-4197-84d7-ea5118c557eb
 status: experimental
 description: |
     Detects possible DLL Search Order hijacking using Avast antivirus wsc_proxy application. 
@@ -7,11 +7,9 @@ description: |
 references:
     - https://redcanary.com/threat-detection-report/threats/raspberry-robin/
 author: RedCanary, Sigma formatting by Micah Babinski
-date: 2022/11/17
+date: 2023/05/10
 tags:
-    - attack.initial_access
-    - attack.defense_evasion
-    - attack.t1566
+    - attack.s0013
 logsource:
     category: process_creation
     product: windows

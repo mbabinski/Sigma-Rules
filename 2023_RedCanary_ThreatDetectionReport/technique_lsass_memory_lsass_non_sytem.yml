@@ -1,0 +1,26 @@
+title: LSASS Running Under Non-Privileged User Context (RedCanary Threat Detection Report)
+id: c6624640-de9d-4933-a3dd-261cdeafdd18
+status: experimental
+description: |
+    Detects instances of LSASS running under any non-privileged user context, which can indicate abuse.
+    Part of the RedCanary 2023 Threat Detection Report.
+references:
+    - https://redcanary.com/threat-detection-report/techniques/lsass-memory/
+author: RedCanary, Sigma formatting by Micah Babinski
+date: 2023/05/10
+tags:
+    - attack.credential_access
+    - attack.t1003.001
+logsource:
+    product: windows
+    service: security
+detection:
+    selection:
+        EventID: 4688
+        NewProcessName|endswith: '\lsass.exe'
+    filter:
+        SubjectUserSid: 'S-1-5-18'
+    condition: selection and not filter
+falsepositives:
+    - Unknown
+level: low

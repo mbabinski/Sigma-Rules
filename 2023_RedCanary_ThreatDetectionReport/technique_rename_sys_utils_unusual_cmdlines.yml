@@ -1,0 +1,28 @@
+title: Processes Executing with Unusual Command Lines (RedCanary Threat Detection Report)
+id: 23aafdd3-8476-49a0-8377-54d26bf7847f
+status: experimental
+description: |
+    Detects non-powershell.exe processes executing with command lines that are usually 
+    associated with powershell. This is an example for demonstration purposes only. 
+    Part of the RedCanary 2023 Threat Detection Report.
+references:
+    - https://redcanary.com/threat-detection-report/techniques/rename-system-utilities/
+author: RedCanary, Sigma formatting by Micah Babinski
+date: 2023/05/10
+tags:
+    - attack.defense_evasion
+    - attack.t1036.003
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        CommandLine|contains:
+            - 'iex'
+            - 'invoke-expression'
+    filter_pwsh:
+        Image|endswith: '\powershell.exe'
+    condition: selection and not filter_pwsh
+falsepositives:
+    - Unknown
+level: low

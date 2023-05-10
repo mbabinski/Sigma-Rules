@@ -1,15 +1,14 @@
 title: AdSearch Reg Runkey Persistence Execution (RedCanary Threat Detection Report)
-id: 8e401ffe-ca9b-4bb2-87aa-8e285811d43f
+id: b50624c2-7867-4685-817e-88c72da264c7
 status: experimental
 description: Detects registry modifications to CurrentVersion\Run key, associated with AdSearch. Part of the RedCanary 2023 Threat Detection Report.
 references:
     - https://redcanary.com/threat-detection-report/threats/adsearch/
 author: RedCanary, Sigma formatting by Micah Babinski
-date: 2022/11/17
+date: 2023/05/10
 tags:
-    - attack.initial_access
-    - attack.defense_evasion
-    - attack.t1566
+    - attack.persistence
+    - attack.t1547.001
 logsource:
     category: process_creation
     product: windows

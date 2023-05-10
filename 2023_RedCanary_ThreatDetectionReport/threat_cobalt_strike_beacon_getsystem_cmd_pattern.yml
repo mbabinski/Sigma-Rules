@@ -1,16 +1,14 @@
 title: Cobalt Strike Beacon Getsystem Pattern (RedCanary Threat Detection Report)
-id: 8e401ffe-ca9b-4bb2-87aa-8e285811d43f
+id: 187c05df-debd-40ed-a59e-1163703bb1de
 status: experimental
 description: Detects command line pattern indicating the use of Cobalt Strike GetSystem feature. Part of the RedCanary 2023 Threat Detection Report.
 references:
     - https://redcanary.com/threat-detection-report/threats/cobalt-strike/
     - https://www.cobaltstrike.com/blog/what-happens-when-i-type-getsystem/
 author: RedCanary, Sigma formatting by Micah Babinski
-date: 2022/11/17
+date: 2023/05/10
 tags:
-    - attack.initial_access
-    - attack.defense_evasion
-    - attack.t1566
+    - attack.s0154
 logsource:
     category: process_creation
     product: windows

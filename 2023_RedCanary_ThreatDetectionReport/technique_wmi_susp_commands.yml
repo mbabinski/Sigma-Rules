@@ -1,0 +1,26 @@
+title: WMI Suspicious Commands (RedCanary Threat Detection Report)
+id: fd4852d8-3464-4639-acc5-f9cf9553a396
+status: experimental
+description: Detects the wmic process with suspicious options. Part of the RedCanary 2023 Threat Detection Report.
+references:
+    - https://redcanary.com/threat-detection-report/techniques/windows-management-instrumentation/
+author: RedCanary, Sigma formatting by Micah Babinski
+date: 2023/05/10
+tags:
+    - attack.execution
+    - attack.t1047
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        Image|endswith: '\wmic.exe'
+        CommandLine|contains:
+            - 'create'
+            - 'node:'
+            - 'process'
+            - 'call'
+    condition: selection
+falsepositives:
+    - Likely will require tuning based on organizational context.
+level: low

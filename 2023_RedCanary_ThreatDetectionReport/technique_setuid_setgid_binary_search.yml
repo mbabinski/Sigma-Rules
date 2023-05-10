@@ -1,5 +1,5 @@
 title: Find Binary Searching for Executables with Setuid or Setguid Bit (RedCanary Threat Detection Report)
-id: 8e401ffe-ca9b-4bb2-87aa-8e285811d43f
+id: 1312409d-9cf1-43c4-82dd-25f5ef59283c
 status: experimental
 description: |
     Detects search for setuid or setgid binaries. This rule looks specifically for execution of the find 
@@ -8,11 +8,10 @@ description: |
 references:
     - https://redcanary.com/threat-detection-report/techniques/setuid-setgid/
 author: RedCanary, Sigma formatting by Micah Babinski
-date: 2022/11/17
+date: 2023/05/10
 tags:
-    - attack.initial_access
-    - attack.defense_evasion
-    - attack.t1566
+    - attack.privilege_escalation
+    - attack.t1548.001
 logsource:
     category: process_creation
     product: linux

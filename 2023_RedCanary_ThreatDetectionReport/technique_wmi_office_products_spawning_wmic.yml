@@ -1,0 +1,26 @@
+title: Office Products Spawning WMI (RedCanary Threat Detection Report)
+id: 6335a2c2-5339-443a-b00c-ebffc9ffc321
+status: experimental
+description: Detects MS Office applications spawning WMI processes. Part of the RedCanary 2023 Threat Detection Report.
+references:
+    - https://redcanary.com/threat-detection-report/techniques/windows-management-instrumentation/
+author: RedCanary, Sigma formatting by Micah Babinski
+date: 2023/05/10
+tags:
+    - attack.execution
+    - attack.t1047
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        ParentImage|endswith:
+            - '\winword.exe'
+            - '\excel.exe'
+        Image|endswith:
+            - '\wmic.exe'
+            - '\wmiprvse.exe'
+    condition: selection
+falsepositives:
+    - Unknown
+level: low

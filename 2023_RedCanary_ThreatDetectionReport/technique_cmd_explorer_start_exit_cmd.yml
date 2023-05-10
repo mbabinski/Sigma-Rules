@@ -1,0 +1,28 @@
+title: Explorer Spawning CMD With Start/Exit Commands (RedCanary Threat Detection Report)
+id: c4e301d9-9f2d-4a81-9c98-60596edb55a3
+status: experimental
+description: |
+    Detects instances of explorer.exe spawning cmd.exe along with corresponding start and 
+    exit commands that we commonly observe in conjunction with a wide variety of malicious 
+    activity. Part of the RedCanary 2023 Threat Detection Report.
+references:
+    - https://redcanary.com/threat-detection-report/techniques/windows-command-shell/
+author: RedCanary, Sigma formatting by Micah Babinski
+date: 2023/05/10
+tags:
+    - attack.execution
+    - attack.t1059.003
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        ParentImage|endswith: '\explorer.exe'
+        Image|endswith: '\cmd.exe'
+        CommandLine|contains|all:
+            - 'start'
+            - 'exit'
+    condition: selection
+falsepositives:
+    - Unknown
+level: low

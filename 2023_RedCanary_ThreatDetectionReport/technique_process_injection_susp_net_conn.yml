@@ -1,0 +1,21 @@
+title: Suspicious Network Connections (RedCanary Threat Detection Report)
+id: f3b0b17c-0e4b-45e5-b88e-521d2c3f6ae1
+status: experimental
+description: Detects notepad making network connections, a potential process injection signal. Part of the RedCanary 2023 Threat Detection Report.
+references:
+    - https://redcanary.com/threat-detection-report/techniques/process-injection/
+author: RedCanary, Sigma formatting by Micah Babinski
+date: 2023/05/10
+tags:
+    - attack.privilege_escalation
+    - attack.t1055
+logsource:
+    category: network_connection
+    product: windows
+detection:
+    selection:
+        Image|endswith: '\notepad.exe'
+    condition: selection
+falsepositives:
+    - Unknown
+level: low

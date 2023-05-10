@@ -1,7 +1,7 @@
-title: Command Shell Suspicious Process Ancestry (RedCanary Threat Detection Report)
-id: 60cb2beb-d2ba-4a47-ad68-e97576985c70
+title: Command Shell Bypassing Security Controls (RedCanary Threat Detection Report)
+id: e76af6c9-1c66-4ed7-9a36-b2f905e2e78c
 status: experimental
-description: Detects IIS worker process spawning command shell. Part of the RedCanary 2023 Threat Detection Report.
+description: Detects command line strings which indicate potential attempts to bypass controls. Part of the RedCanary 2023 Threat Detection Report.
 references:
     - https://redcanary.com/threat-detection-report/techniques/windows-command-shell/
 author: RedCanary, Sigma formatting by Micah Babinski
@@ -14,14 +14,10 @@ logsource:
     product: windows
 detection:
     selection:
-        ParentImage|endswith:
-            - '\w3wp.exe'
-            - '\wmiprvse.exe'
         Image|endswith: '\cmd.exe'
         CommandLine|contains:
-            - 'http://'
-            - 'https://'
-            - 'echo'
+            - 'bypass'
+            - '-exec'
     condition: selection
 falsepositives:
     - Unknown

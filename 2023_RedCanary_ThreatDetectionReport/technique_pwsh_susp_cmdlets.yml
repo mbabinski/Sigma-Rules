@@ -1,0 +1,28 @@
+title: Suspicious Powershell Commandlets (RedCanary Threat Detection Report)
+id: 68490f55-bf8d-489d-995a-5ceae34ce215
+status: experimental
+description: Detects the execution of powershell.exe with suspicious cmdlets or options. Part of the RedCanary 2023 Threat Detection Report.
+references:
+    - https://redcanary.com/threat-detection-report/techniques/powershell/
+author: RedCanary, Sigma formatting by Micah Babinski
+date: 2023/05/10
+tags:
+    - attack.execution
+    - attack.t1059.001
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        Image|endswith: '\powershell.exe'
+        CommandLine|contains:
+            - '-nop'
+            - '-noni'
+            - 'invoke-expression'
+            - 'iex'
+            - '.downloadstring'
+            - 'downloadfile'
+    condition: selection
+falsepositives:
+    - Unknown
+level: low

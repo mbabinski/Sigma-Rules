@@ -1,0 +1,21 @@
+title: Powershell Injecting Into Anything (RedCanary Threat Detection Report)
+id: 3556964d-5ade-438c-bc68-58e0c64a70ec
+status: experimental
+description: Detects instances of PowerShell accessing any other processes. Part of the RedCanary 2023 Threat Detection Report.
+references:
+    - https://redcanary.com/threat-detection-report/techniques/process-injection/
+author: RedCanary, Sigma formatting by Micah Babinski
+date: 2023/05/10
+tags:
+    - attack.privilege_escalation
+    - attack.t1055
+logsource:
+    category: process_access
+    product: windows
+detection:
+    selection:
+        SourceImage|endswith: '\powershell.exe'
+    condition: selection
+falsepositives:
+    - Unknown
+level: low

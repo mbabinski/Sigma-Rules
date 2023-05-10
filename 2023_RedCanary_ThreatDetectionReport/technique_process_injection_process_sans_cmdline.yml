@@ -1,0 +1,39 @@
+title: Process Executing Sans Command Line (RedCanary Threat Detection Report)
+id: fbc13e37-c601-4935-aa4f-3eaaa9976003
+status: experimental
+description: |
+    Detects processes running without command lines, which can indicate process injection. 
+    Part of the RedCanary 2023 Threat Detection Report.
+references:
+    - https://redcanary.com/threat-detection-report/techniques/process-injection/
+author: RedCanary, Sigma formatting by Micah Babinski
+date: 2023/05/10
+tags:
+    - attack.privilege_escalation
+    - attack.t1055
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection_img:
+        Image|endswith:
+            - '\backgroundtaskhost.exe'
+            - '\svchost.exe'
+            - '\dllhost.exe'
+            - '\werfault.exe'
+            - '\searchprotocolhost.exe'
+            - '\wuauclt.exe'
+            - '\spoolsv.exe'
+            - '\rundll32.exe'
+            - '\regasm.exe'
+            - '\regsvcs.exe'
+    selection_cmd_1:
+        CommandLine|re: '^(backgroundtaskhost|svchost|dllhost|werfault|searchprotocolhost|wuauclt|spoolsv|rundll32|regasm|regsvcs)(\.exe){0,}(\s|")*$'
+    selection_cmd_2:
+        CommandLine:
+            - null
+            - ''
+    condition: selection_img and 1 of selection_cmd_*
+falsepositives:
+    - Unknown
+level: low

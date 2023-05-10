@@ -1,0 +1,26 @@
+title: Certutil Downloading Malicious Binaries (RedCanary Threat Detection Report)
+id: 5da5a0a0-e610-4d72-9562-339eafdef216
+status: experimental
+description: |
+    Detects attempts to bypass security controls using certutil.exe to download malicious code. 
+    Part of the RedCanary 2023 Threat Detection Report.
+references:
+    - https://redcanary.com/threat-detection-report/techniques/ingress-tool-transfer/
+author: RedCanary, Sigma formatting by Micah Babinski
+date: 2023/05/10
+tags:
+    - attack.command_and_control
+    - attack.t1105
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        Image|endswith: '\certutil.exe'
+        CommandLine|contains|:
+            - 'urlcache'
+            - 'split'
+    condition: selection
+falsepositives:
+    - Unknown
+level: low
