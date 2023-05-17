@@ -17,7 +17,7 @@ logsource:
 detection:
     selection:
         Image|endswith: '\certutil.exe'
-        CommandLine|contains|:
+        CommandLine|contains:
             - 'urlcache'
             - 'split'
     condition: selection

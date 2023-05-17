@@ -15,7 +15,7 @@ detection:
     selection:
         ParentImage|endswith: '\services.exe'
         Image|endswith: '\cmd.exe'
-        CommandLine|re: '/(?i)cmd.exe \/Q \/c echo cd \^> \\\\127.0.0.1\\[a-zA-Z]{1,}\$\\__output 2\^>\^&1 > .* & /'
+        CommandLine|re: '(?i)cmd.exe \/Q \/c echo cd \^> \\\\127.0.0.1\\[a-zA-Z]{1,}\$\\__output 2\^>\^&1 > .* & '
     condition: selection
 falsepositives:
     - Unknown

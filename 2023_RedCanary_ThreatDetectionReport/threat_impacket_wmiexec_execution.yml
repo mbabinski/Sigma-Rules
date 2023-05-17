@@ -15,7 +15,7 @@ detection:
     selection:
         ParentImage|endswith: '\wmiprvse.exe'
         Image|endswith: '\cmd.exe'
-        CommandLine|re: '/(?i)cmd.exe \/Q \/c .*\\\\127.0.0.1\\ADMIN\$\\__[0-9]{1,10}\.[0-9]{1,10} 2>&1/)'
+        CommandLine|re: '(?i)cmd.exe \/Q \/c .*\\\\127.0.0.1\\ADMIN\$\\__[0-9]{1,10}\.[0-9]{1,10} 2>&1'
     condition: selection
 falsepositives:
     - Unknown

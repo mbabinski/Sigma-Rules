@@ -15,7 +15,7 @@ logsource:
 detection:
     selection:
         Image|endswith: '\wscript.exe'
-        CommandLine|re: '/(?i)appdata\\.*\.js'
+        CommandLine|re: '(?i)appdata\\.*\.js'
     condition: selection
 falsepositives:
     - Unknown
