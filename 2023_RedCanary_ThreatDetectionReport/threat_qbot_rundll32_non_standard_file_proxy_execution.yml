@@ -21,7 +21,7 @@ detection:
             - '.ax'
             - '.ocx'
             - '.inf'
-    condition: selection
+    condition: selection and not filter
 falsepositives:
     - Unknown
 level: low
