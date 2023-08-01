@@ -26,5 +26,5 @@ detection:
         CommandLine|contains: '\DavWWWRoot\'
     condition: all of selection_*
 falsepositives:
-    - Legitimate use of search-ms URI protocol
+    - Unknown
 level: high
