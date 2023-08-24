@@ -39,7 +39,7 @@ detection:
             - 'AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup'
             - 'C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp'
         TargetFilename|re: '^.*\\([0-9a-fA-F]){29}\.(?i)lnk$'
-    condition: any of selection*
+    condition: 1 of selection*
 falsepositives:
     - Unknown
 level: high

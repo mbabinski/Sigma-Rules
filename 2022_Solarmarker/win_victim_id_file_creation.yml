@@ -20,7 +20,7 @@ detection:
         TargetFilename|endswith: '='
     selection_2:
         TargetFilename|endswith: '\AppData\Roaming\solarmarker.dat'
-    condition: any of selection*
+    condition: 1 of selection*
 falsepositives:
     - Unknown
 level: high

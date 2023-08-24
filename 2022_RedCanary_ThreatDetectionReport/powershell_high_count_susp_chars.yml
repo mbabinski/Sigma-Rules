@@ -5,8 +5,9 @@ description: Looks for the execution of PowerShell with unusually high counts of
     like ^, +, $, and %. Inspired by the 2022 Red Canary Threat Detection report.
 references:
     - https://redcanary.com/threat-detection-report/techniques/powershell/
-author: Micah Babinski
+author: Micah Babinski, Tim Shelton
 date: 2022/11/03
+modified: 2022/11/10
 tags:
     - attack.execution
     - attack.t1059.003
@@ -19,8 +20,8 @@ detection:
     selection:
         Image|endswith: '\powershell.exe'
         # regex below detects five or more occurrences of the suspicious characters
-        CommandLine|re: '^([^^+$%]*[\^+$%]){5,}[^^+$%]*$'
+        CommandLine|re: '^([^^+%]*[\^+%]){5,}[^^+%]*$'
     condition: selection
 falsepositives:
     - Unknown
-level: high
+level: low

@@ -18,7 +18,7 @@ detection:
         ParentImage|endswith:
             - '\powershell.exe'
             - '\cmd.exe'
-        ParentCommandLine|contains|windash: '/c'
+        ParentCommandLine|contains: '/c'
         ParentCommandLine|re: '^.*[D-Z]:\\.*\.(bat|cmdline).*$'
     selection_child_proc:
         Image|endswith: '\tar.exe'
