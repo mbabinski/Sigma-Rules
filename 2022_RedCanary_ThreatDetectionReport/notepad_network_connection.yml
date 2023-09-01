@@ -10,7 +10,6 @@ date: 2022/11/03
 tags:
     - attack.privilege_escalation
     - attack.t1055
-    - 
 logsource:
     category: network_connection
     product: windows

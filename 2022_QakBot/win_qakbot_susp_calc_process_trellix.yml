@@ -8,7 +8,7 @@ author: Adithya Chandra and Sushant Kumar Arya, Trellix
 date: 2022/04/08
 tags:
     - attack.defense_evasion
-    - attack.1218
+    - attack.t1218
 logsource:
     category: process_creation
     product: windows

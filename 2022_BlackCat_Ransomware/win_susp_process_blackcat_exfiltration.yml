@@ -10,7 +10,7 @@ date: 2022/12/04
 tags:
     - attack.exfiltration
     - attack.t1020
-    - attack.1537
+    - attack.t1537
 logsource:
     category: process_creation
     product: windows

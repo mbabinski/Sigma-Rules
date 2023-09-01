@@ -9,8 +9,8 @@ author: Micah Babinski
 date: 2022/11/04
 tags:
     - attack.persistence
-    - attack.1574
-    - attack.1574.001
+    - attack.t1574
+    - attack.t1574.001
 logsource:
     category: process_creation
     product: windows

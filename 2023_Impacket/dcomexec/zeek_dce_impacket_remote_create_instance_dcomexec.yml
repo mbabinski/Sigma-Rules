@@ -23,7 +23,7 @@ detection:
         operation: RemoteCreateInstance
         endpoint: IRemoteSCMActivator
         id.resp_p: 135
-        named_pipe: '135'
+        named_pipe: 135
     condition: selection
 fields:
     - id.orig_h

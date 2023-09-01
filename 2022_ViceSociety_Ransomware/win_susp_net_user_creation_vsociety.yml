@@ -11,8 +11,8 @@ tags:
     - attack.privilege_escalation
     - attack.t1136.001
     - attack.t1136
-    - attack.1078
-    - attack.1078.003
+    - attack.t1078
+    - attack.t1078.003
 logsource:
     category: process_creation
     product: windows

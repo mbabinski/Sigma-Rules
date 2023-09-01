@@ -23,12 +23,12 @@ detection:
         TargetFilename|contains|all:
             - '\appdata\'
             - '\temp\'
-        TargetFilename|re: '^.*\\\w{24}\.(?i)ps1$'
+        TargetFilename|re: '(?i)^.*\\\w{24}\.ps1$'
     selection_fourth_stage:
         TargetFilename|contains|all:
             - '\appdata\'
             - '\microsoft\'
-        TargetFilename|re: '^.*\\\w{4}\\\w{8}\.(?i)cmd$'
+        TargetFilename|re: '(?i)^.*\\\w{4}\\\w{8}\.cmd$'
     selection_b64_backdoor:
         TargetFilename|contains|all:
             - '\appdata\'
@@ -38,7 +38,7 @@ detection:
         TargetFilename|contains:
             - 'AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup'
             - 'C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp'
-        TargetFilename|re: '^.*\\([0-9a-fA-F]){29}\.(?i)lnk$'
+        TargetFilename|re: '(?i)^.*\\([0-9a-fA-F]){29}\.lnk$'
     condition: any of selection*
 falsepositives:
     - Unknown

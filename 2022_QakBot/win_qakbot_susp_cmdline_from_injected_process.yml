@@ -8,7 +8,7 @@ author: Adithya Chandra and Sushant Kumar Arya, Trellix
 date: 2022/04/08
 tags:
     - attack.discovery
-    - attack.1082
+    - attack.t1082
 logsource:
     category: process_creation
     product: windows
