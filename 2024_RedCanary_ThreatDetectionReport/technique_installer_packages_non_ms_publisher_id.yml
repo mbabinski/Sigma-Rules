@@ -1,0 +1,31 @@
+title: Non-Microsoft App Package Installation Process
+id: ca15c3dc-243f-432d-868b-c7694027be21
+status: experimental
+description: |
+    Detects app package installation processes where the app is not a Microsoft app 
+    based on the publisher ID. Part of the RedCanary 2024 Threat Detection Report.
+references:
+    - https://redcanary.com/threat-detection-report/techniques/installer-packages/
+author: RedCanary, Sigma formatting by Micah Babinski
+date: 2024/03/21
+tags:
+    - attack.persistence
+    - attack.privilege_escalation
+    - attack.t1546
+    - attack.t1546.016
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        Image|contains:
+            - 'C:\Program Files\WindowsApps'
+            - 'C:\Program Files (x86)\WindowsApps'
+    filter:
+        Image|contains:
+            - '8wekyb3d8bbwe'
+            - 'cw5n1h2txyewy'
+    condition: selection and not filter
+falsepositives:
+    - Unknown
+level: low

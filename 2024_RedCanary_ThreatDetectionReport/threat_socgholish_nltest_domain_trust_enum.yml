@@ -1,0 +1,27 @@
+title: Enumerating Domain Trust Relationships with Nltest.exe
+id: 3ddc7df5-780a-442a-8d41-269f476ed24a
+status: experimental
+description: |
+    Left unchecked, SocGholish may lead to domain discovery. This type of behavior is 
+    often a precursor to ransomware activity, and should be quickly quelled to prevent 
+    further progression of the threat. Part of the RedCanary 2024 Threat Detection Report.
+references:
+    - https://redcanary.com/threat-detection-report/threats/socgholish/
+author: RedCanary, Sigma formatting by Micah Babinski
+date: 2024/03/21
+tags:
+    - attack.discovery
+    - attack.t1482
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        Image|endswith: '\nltest.exe'
+        CommandLine|contains:
+            - '/domain_trusts'
+            - '/all_trusts'
+    condition: selection
+falsepositives:
+    - Unknown
+level: low

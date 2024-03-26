@@ -1,0 +1,37 @@
+title: Email Forwarding Rule - Suspicious Folders
+id: f1595374-3a4a-4b40-aef5-0d854e043a14
+status: experimental
+description: |
+    Looking for new rules alone may generate too many false positives, so adding another 
+    check for commonly abused folders, suspicious criteria, and odd names will help 
+    filter out benign activity. RedCanary suggests looking for new inbox rules that move or 
+    copy emails to the following folders. Part of the RedCanary 2024 Threat Detection Report.
+references:
+    - https://redcanary.com/threat-detection-report/techniques/email-forwarding-rule/
+author: RedCanary, Sigma formatting by Micah Babinski
+date: 2024/03/21
+tags:
+    - attack.collection
+    - attack.t1114
+    - attack.t1114.003
+logsource:
+    service: exchange
+    product: m365
+detection:
+    selection1:
+        Workload: 'Exchange'
+        Operation:
+            - 'New-InboxRule'
+            - 'Set-InboxRule'
+        Parameters|contains: 'MoveToFolder'
+    selection2:
+        Parameters|contains:
+            - 'RSS Feeds'
+            - 'RSS Subscriptions'
+            - 'Archive'
+            - 'Deleted Items'
+            - 'Conversation History'
+    condition: all of selection*
+falsepositives:
+    - Unknown
+level: low

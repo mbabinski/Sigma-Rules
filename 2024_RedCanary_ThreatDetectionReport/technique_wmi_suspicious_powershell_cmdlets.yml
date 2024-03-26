@@ -1,0 +1,33 @@
+title: Suspicious PowerShell Cmdlets - WMI
+id: e29d3301-3b64-4305-9e91-8aabfbef2015
+status: experimental
+description: |
+    There are numerous default PowerShell cmdlets that allow administrators to leverage WMI via 
+    PowerShell. Both adversaries and administrators use these cmdlets to query the operating 
+    system or execute commands, either locally or remotely. Cmdlets like Get-WMIObject are often 
+    used for reconnaissance. Part of the RedCanary 2024 Threat Detection Report.
+references:
+    - https://redcanary.com/threat-detection-report/techniques/windows-management-instrumentation/
+author: RedCanary, Sigma formatting by Micah Babinski
+date: 2024/03/21
+tags:
+    - attack.execution
+    - attack.t1047
+    - attack.t1059
+    - attack.t1059.001
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        Image|endswith: '\powershell.exe'
+        CommandLine|contains:
+            - 'invoke-wmimethod'
+            - 'invoke-cimmethod'
+            - 'get-wmiobject'
+            - 'get-ciminstance'
+            - 'wmiclass'
+    condition: selection
+falsepositives:
+    - Unknown
+level: low

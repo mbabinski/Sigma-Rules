@@ -1,0 +1,29 @@
+title: Rundll32 Without a Command Line
+id: 0fab2f9d-0c38-4392-802f-09e4f4fef0ed
+status: experimental
+description: |
+    Rundll32 does not normally execute without corresponding command-line 
+    arguments and while spawning a child process. Given this, you may want 
+    to alert on the execution of processes that appear to be rundll32.exe 
+    without any command-line arguments , especially when they spawn child 
+    processes or make network connections. Part of the RedCanary 2024 
+    Threat Detection Report.
+references:
+    - https://redcanary.com/threat-detection-report/techniques/rundll32/
+author: RedCanary, Sigma formatting by Micah Babinski
+date: 2024/03/21
+tags:
+    - attack.defense_evasion
+    - attack.t1218
+    - attack.t1218.011
+logsource:
+    category: network_connection
+    product: windows
+detection:
+    selection:
+        ParentImage|endswith: '\rundll32.exe'
+        ParentCommandLine: null
+    condition: selection
+falsepositives:
+    - Unknown
+level: low

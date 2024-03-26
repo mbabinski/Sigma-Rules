@@ -1,0 +1,29 @@
+title: BITSAdmin Downloading Malicious Binaries
+id: b195646e-8455-4fa1-b78a-91bb92371152
+status: experimental
+description: |
+    It is not unusual for adversaries, including ones who peddle ransomware, to use 
+    BITSAdmin to download arbitrary files from the internet in an effort to evade 
+    application blocklisting. The following analytic will look for the execution of 
+    bitsadmin.exe with command options that suggest a file is being downloaded. Part 
+    of the RedCanary 2024 Threat Detection Report.
+references:
+    - https://redcanary.com/threat-detection-report/techniques/ingress-tool-transfer/
+author: RedCanary, Sigma formatting by Micah Babinski
+date: 2024/03/21
+tags:
+    - attack.command_and_control
+    - attack.t1105
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        Image|endswith: '\bitsadmin.exe'
+        CommandLine|contains:
+            - 'download'
+            - 'transfer'
+    condition: selection
+falsepositives:
+    - Unknown
+level: low

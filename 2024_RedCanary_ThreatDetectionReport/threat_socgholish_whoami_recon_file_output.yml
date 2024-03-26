@@ -1,0 +1,27 @@
+title: Whoami Recon Writing Output to File
+id: abcdf274-2fbd-4736-a16b-032fcac54eee
+status: experimental
+description: |
+    SocGholish employs several scripted reconnaissance commands. While much of this activity 
+    occurs in memory, one that stands out is the execution of whoami with the output redirected 
+    to a local temp file with the naming convention rad<5-hex-chars>.tmp. Part of the RedCanary 
+    2024 Threat Detection Report.
+references:
+    - https://redcanary.com/threat-detection-report/threats/socgholish/
+author: RedCanary, Sigma formatting by Micah Babinski
+date: 2024/03/21
+tags:
+    - attack.discovery
+    - attack.t1033
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        ParentImage|endswith: '\wscript.exe'
+        Image|endswith: '\cmd.exe'
+        CommandLine|contains: 'whoami /all >>'
+    condition: selection
+falsepositives:
+    - Unknown
+level: low

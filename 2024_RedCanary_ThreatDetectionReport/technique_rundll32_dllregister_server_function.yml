@@ -1,0 +1,30 @@
+title: Application Bypass with DllRegisterServer Function
+id: 06c7a5b8-24dc-482c-8203-c674a7e05c56
+status: experimental
+description: |
+    DLLs that are designed to be loaded by Regsvr32 are expected to have a 
+    DllRegisterServer export function implemented. Adversaries will often 
+    supply the same DLL to rundll32.exe as well. Executing the DllRegisterServer 
+    export function with rundll32.exe is tradecraft that’s unique to adversary 
+    behavior and is rarely seen in legitimate scenarios. We’ve observed this 
+    behavior in threats including Qbot, Ursnif, and Zloader, to name a few examples. 
+    Part of the RedCanary 2024 Threat Detection Report.
+references:
+    - https://redcanary.com/threat-detection-report/techniques/rundll32/
+author: RedCanary, Sigma formatting by Micah Babinski
+date: 2024/03/21
+tags:
+    - attack.defense_evasion
+    - attack.t1218
+    - attack.t1218.011
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        Image|endswith: '\rundll32.exe'
+        CommandLine|contains: 'DllRegisterServer'
+    condition: selection
+falsepositives:
+    - Unknown
+level: low

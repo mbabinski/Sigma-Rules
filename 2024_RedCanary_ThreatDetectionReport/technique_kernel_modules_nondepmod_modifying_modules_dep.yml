@@ -1,0 +1,31 @@
+title: Non-depmod Process Modifying modules.dep
+id: c0bbc749-9ed3-483b-b3ac-7c5732a61fda
+status: experimental
+description: |
+    Detects unusual process modifying the modules.dep file. The modules.dep and modules.dep.bin 
+    files should only be modified by the depmod utility. Part of the RedCanary 2024 Threat 
+    Detection Report.
+references:
+    - https://redcanary.com/threat-detection-report/techniques/kernel-modules-and-extensions/
+author: RedCanary, Sigma formatting by Micah Babinski
+date: 2024/03/21
+tags:
+    - attack.persistence
+    - attack.privilege_escalation
+    - attack.t1547
+    - attack.t1547.006
+logsource:
+    product: linux
+    category: file_event
+detection:
+    selection:
+        TargetFilename|startswith: '/lib/modules/'
+        TargetFilename|endswith:
+            - '/modules.dep'
+            - '/modules.dep.bin'
+    filter:
+        Image|endswith: '/depmod'
+    condition: selection and not filter
+falsepositives:
+    - Unknown
+level: low

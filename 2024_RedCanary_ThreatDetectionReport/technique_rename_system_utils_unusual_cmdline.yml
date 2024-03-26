@@ -1,0 +1,28 @@
+title: Processes Executing with Unusual Command Lines
+id: 4108fe33-1d66-4111-a698-53b4ecc15dc4
+status: experimental
+description: |
+    Detects powershell command lines used with a process name besides powershell. Part 
+    of the RedCanary 2024 Threat Detection Report.
+references:
+    - https://redcanary.com/threat-detection-report/techniques/rename-system-utilities/
+author: RedCanary, Sigma formatting by Micah Babinski
+date: 2024/03/21
+tags:
+    - attack.defense_evasion
+    - attack.t1036
+    - attack.t1036.003
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        CommandLine|contains:
+            - 'iex'
+            - 'invoke-expression'
+    filter:
+        Image|endswith: '\powershell.exe'
+    condition: selection and not filter
+falsepositives:
+    - Unknown
+level: low

@@ -1,0 +1,38 @@
+title: SMBexec.py Execution
+id: c250b516-78d8-4664-8b86-8f3c9c0b53c8
+status: experimental
+description: |
+    Similar to the wmiexec.py detector logic, this detection analytic is looking for services.exe 
+    spawning cmd.exe with a command line that has the following strings: '/Q', '/c', 'echo',' > ', 
+    ' 2>&1'. These strings are unique to the execution of smbexec.py, which allows a semi-interactive 
+    shell used through SMB. This script functions similar to psexec.py, but does not write a service 
+    binary to disk on the target machine. Part of the RedCanary 2024 Threat Detection Report.
+references:
+    - https://redcanary.com/threat-detection-report/threats/impacket/
+author: RedCanary, Sigma formatting by Micah Babinski
+date: 2024/03/21
+tags:
+    - attack.s0357
+    - attack.execution
+    - attack.t1569
+    - attack.t1569.002
+    - attack.lateral_movement
+    - attack.t1021
+    - attack.t1021.003
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        ParentImage|endswith: '\services.exe'
+        Image|endswith: '\cmd.exe'
+        CommandLine|contains:
+            - '/Q'
+            - '/c'
+            - 'echo'
+            - '^> '
+            - ' 2^>^&1 > '
+    condition: selection
+falsepositives:
+    - Unknown
+level: low

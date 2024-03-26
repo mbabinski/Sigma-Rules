@@ -1,0 +1,31 @@
+title: PowerShell Base64 Encoding
+id: df33cc09-ea03-4681-bd6c-b8dba7328a84
+status: experimental
+description: |
+    This analytic looks for the execution of a process that seems to be 
+    powershell.exe along with a corresponding command line containing the 
+    term base64. Base64 encoding isn’t inherently suspicious, but it’s worth 
+    looking out for in a lot of environments, and the following pseudo-detection 
+    logic can help detect a wide variety of malicious activity. Part of the 
+    RedCanary 2024 Threat Detection Report.
+references:
+    - https://redcanary.com/threat-detection-report/techniques/powershell/
+author: RedCanary, Sigma formatting by Micah Babinski
+date: 2024/03/21
+tags:
+    - attack.execution
+    - attack.t1059
+    - attack.t1059.001
+    - attack.defense_evasion
+    - attack.t1027
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        Image|endswith: '\powershell.exe'
+        CommandLine|contains: 'base64'
+    condition: selection
+falsepositives:
+    - Unknown
+level: low

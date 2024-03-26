@@ -1,0 +1,32 @@
+title: Package Support Framework (PSF) Advanced Installer Processes
+id: 0c5dcf6c-9b6a-4411-a410-9b9b2caaef75
+status: experimental
+description: |
+    Detects app package installation processes where legitimate software is included 
+    in an MSIX package, but a malicious PowerShell script may execute beforehand by 
+    employing the Package Support Framework (PSF). In these cases, the MSIX package 
+    includes the malicious script, which is executed as specified in an included 
+    config.json file. Part of the RedCanary 2024 Threat Detection Report.
+references:
+    - https://redcanary.com/threat-detection-report/techniques/installer-packages/
+author: RedCanary, Sigma formatting by Micah Babinski
+date: 2024/03/21
+tags:
+    - attack.persistence
+    - attack.privilege_escalation
+    - attack.t1546
+    - attack.t1546.016
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        Image|endswith:
+            - '\AI_STUBS\AiStubX64Elevated.exe'
+            - '\AI_STUBS\AiStubX86Elevated.exe'
+            - '\AI_STUBS\AiStubX64.exe'
+            - '\AI_STUBS\AiStubX86.exe'
+    condition: selection
+falsepositives:
+    - Unknown
+level: low

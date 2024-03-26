@@ -1,0 +1,38 @@
+title: Suspicious Export Functionalities - Rundll32
+id: 705d6f7b-779f-41c5-9994-8b191094577b
+status: experimental
+description: |
+    Consider monitoring for instances of rundll32.exe running Windows 
+    native DLLs that have export functionalities that adversaries commonly 
+    leverage for executing malicious code and evading defensive controls. 
+    The following pseudo-analytic applies specifically to adversaries who 
+    use the MiniDump export functionality of comsvcs.dll to dump the 
+    contents of LSASS, but this logic could be adapted to detect other 
+    malicious activity as well. Part of the RedCanary 2024 Threat Detection 
+    Report.
+references:
+    - https://redcanary.com/threat-detection-report/techniques/rundll32/
+author: RedCanary, Sigma formatting by Micah Babinski
+date: 2024/03/21
+tags:
+    - attack.defense_evasion
+    - attack.t1218
+    - attack.t1218.011
+    - attack.credential_access
+    - attack.t1003
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection1:
+        Image|endswith: '\rundll32.exe'
+    selection2:
+        CommandLine|contains: 'comsvcs.dll'
+    selection3:
+        CommandLine|contains:
+            - 'MiniDump'
+            - '#24'
+    condition: all of selection*
+falsepositives:
+    - Unknown
+level: low

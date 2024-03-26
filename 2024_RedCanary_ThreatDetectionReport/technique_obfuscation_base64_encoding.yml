@@ -1,0 +1,29 @@
+title: Base64 Encoding
+id: 027b8851-d448-4a3e-8f2e-698433ba81e3
+status: experimental
+description: |
+    If you’re looking to detect malicious use of Base64 encoding, consider monitoring for the 
+    execution of processes like powershell.exe or cmd.exe along with command lines containing 
+    parameters like ToBase64String and FromBase64String. The following simple pseudo-analytic 
+    might help you find malicious obfuscation. Part of the RedCanary 2024 Threat Detection 
+    Report.
+references:
+    - https://redcanary.com/threat-detection-report/techniques/obfuscated-files-information/
+author: RedCanary, Sigma formatting by Micah Babinski
+date: 2024/03/21
+tags:
+    - attack.defense_evasion
+    - attack.t1027
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        Image|endswith:
+            - '\cmd.exe'
+            - '\powershell.exe'
+        CommandLine|contains: 'base64'
+    condition: selection
+falsepositives:
+    - Unknown
+level: low

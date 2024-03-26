@@ -1,0 +1,31 @@
+title: Windows Scheduled Task Creating Shell
+id: 8b1a34e3-c4d6-4af6-9836-35a0da09b85b
+status: experimental
+description: |
+    Adversaries frequently establish persistence by using scheduled tasks to launch 
+    the Windows Command Shell. Detecting this behavior is relatively straightforward. 
+    Part of the RedCanary 2024 Threat Detection Report.
+references:
+    - https://redcanary.com/threat-detection-report/techniques/windows-command-shell/
+author: RedCanary, Sigma formatting by Micah Babinski
+date: 2024/03/21
+tags:
+    - attack.execution
+    - attack.t1059
+    - attack.t1059.003
+    - attack.t1053
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection1:
+        Image|endswith: '\schtasks.exe'
+        CommandLine|contains: 'create'
+    selection2:
+        CommandLine|contains:
+            - 'cmd.exe /c'
+            - 'cmd /c'
+    condition: all of selection*
+falsepositives:
+    - Unknown
+level: low

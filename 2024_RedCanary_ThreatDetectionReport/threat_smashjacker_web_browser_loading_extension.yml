@@ -1,0 +1,29 @@
+title: Web Browser Loading Extension
+id: 81f18c2e-640e-411d-93c0-496bb713003c
+status: experimental
+description: |
+    During execution, SmashJacker forced Google Chrome or Microsoft Edge to open with 
+    the command line argument --load-extension so a browser extension can install without 
+    user interaction. This analytic will likely uncover additional adware in an environment 
+    and may need tuning to take account for acceptable software installation. Part of the 
+    RedCanary 2024 Threat Detection Report.
+references:
+    - https://redcanary.com/threat-detection-report/threats/smashjacker/
+author: RedCanary, Sigma formatting by Micah Babinski
+date: 2024/03/21
+tags:
+    - attack.persistence
+    - attack.t1176
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        Image|endswith:
+            - '\chrome.exe'
+            - '\msedge.exe'
+        CommandLine|contains: '--load-extension'
+    condition: selection
+falsepositives:
+    - Unknown
+level: low

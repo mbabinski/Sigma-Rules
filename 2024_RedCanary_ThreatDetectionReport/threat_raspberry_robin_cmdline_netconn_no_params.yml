@@ -1,0 +1,27 @@
+title: Network Connections from the Command Line with no Parameters
+id: 1b49c5af-3774-4364-9c49-827fd59417cb
+status: experimental
+description: |
+    It is unusual for these processes to attempt network connections with an empty command line, 
+    which can indicate malicious command and control (C2) activity. Part of the RedCanary 2024 
+    Threat Detection Report.
+references:
+    - https://redcanary.com/threat-detection-report/threats/raspberry-robin/
+author: RedCanary, Sigma formatting by Micah Babinski
+date: 2024/03/21
+tags:
+    - attack.command_and_control
+logsource:
+    category: network_connection
+    product: windows
+detection:
+    selection:
+        Image|endswith:
+            - '\regsvr32.exe'
+            - '\rundll32.exe'
+            - '\dllhost.exe'
+        CommandLine: null
+    condition: selection
+falsepositives:
+    - Unknown
+level: low

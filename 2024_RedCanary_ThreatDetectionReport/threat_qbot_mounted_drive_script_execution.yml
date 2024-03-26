@@ -1,0 +1,32 @@
+title: Qbot Mounted Drive Script Executions
+id: e69d709f-097f-4798-bf9a-aa600fc3249f
+status: experimental
+description: |
+    Detects Windows Scripting Host processes (wscript.exe and cscript.exe) that are 
+    invoking the execution of common scripting formats that Red Canary has observed 
+    being used by Qbot—such as .js, .vbs, and .wsf—that are from a logical mounted 
+    drive using the drive letters D: through Z: and that have a child process. Part 
+    of the RedCanary 2024 Threat Detection Report.
+references:
+    - https://redcanary.com/threat-detection-report/threats/qbot/
+author: RedCanary, Sigma formatting by Micah Babinski
+date: 2024/03/21
+tags:
+    - attack.s0650
+    - attack.execution
+    - attack.t1059
+    - attack.t1204
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        ParentImage|endswith: '\explorer.exe'
+        Image|endswith:
+            - '\cscript.exe'
+            - '\wscript.exe'
+        CommandLine|re: '[d-z]:\.*[js|vbs|wsf]$'
+    condition: selection
+falsepositives:
+    - Unknown
+level: low

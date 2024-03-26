@@ -1,0 +1,44 @@
+title: ChromeLoader NW.js Runtime App Installation Paths
+id: be3e4b3e-4076-4ae3-acb9-3713c651158b
+status: experimental
+description: |
+    Red Canary has had success detecting ChromeLoader by looking for instances of NW.js 
+    applications that are unsigned and running from %AppData/Roaming%. This behavior is 
+    not unique to ChromeLoader, and some tuning may be required to avoid detecting 
+    legitimate applications. A partial list of common ChromeLoader NW.js runtime app 
+    installation paths is included below to help distinguish the signal from the noise. 
+    Part of the RedCanary 2024 Threat Detection Report.
+references:
+    - https://redcanary.com/threat-detection-report/threats/chromeloader/
+author: RedCanary, Sigma formatting by Micah Babinski
+date: 2024/03/21
+tags:
+    - attack.persistence
+    - attack.t1176
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection1:
+        Image|re: '^.*:\\users\\.*\\appdata\\roaming\\.*$'
+    selection2:
+        Image|endswith:
+            - '\bloom\bloom.exe'
+            - '\cash/\cash.exe'
+            - '\diet\diet.exe'
+            - '\editor\editor.exe'
+            - '\healthy\healthy.exe'
+            - '\leading\leading.exe'
+            - '\movies\movies.exe'
+            - '\music\music.exe'
+            - '\prime\prime.exe'
+            - '\player\player.exe'
+            - '\tone\tone.exe'
+            - '\videos\videos.exe'
+            - '\copy\nw.exe'
+            - '\coreelevate\nw.exe'
+            - '\debuggerstepperboundaryattribute\nw.exe'
+    condition: all of selection*
+falsepositives:
+    - Unknown
+level: low

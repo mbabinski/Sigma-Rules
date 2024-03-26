@@ -1,0 +1,36 @@
+title: Email Forwarding Rule - Suspicious Rule Names
+id: 47ea2a13-f863-4403-a672-00b3d940ac92
+status: experimental
+description: |
+    Detects the creation of email forwarding rules with suspicious names. Part of the 
+    RedCanary 2024 Threat Detection Report.
+references:
+    - https://redcanary.com/threat-detection-report/techniques/email-forwarding-rule/
+author: RedCanary, Sigma formatting by Micah Babinski
+date: 2024/03/21
+tags:
+    - attack.collection
+    - attack.t1114
+    - attack.t1114.003
+logsource:
+    service: exchange
+    product: m365
+detection:
+    selection_rule:
+        Workload: 'Exchange'
+        Operation:
+            - 'New-InboxRule'
+            - 'Set-InboxRule'
+    selection_onechar:
+        RuleName|re: '^\w{1}$'
+    selection_susp_vals:
+        RuleName:
+            - '.'
+            - '..'
+            - 'aaaaa'
+            - '……'
+            - ';'
+    condition: selection_rule and (selection_onechar or selection_susp_vals)
+falsepositives:
+    - Unknown
+level: low

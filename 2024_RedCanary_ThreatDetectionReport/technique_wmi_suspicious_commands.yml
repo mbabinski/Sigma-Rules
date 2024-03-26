@@ -1,0 +1,34 @@
+title: Suspicious Commands - WMI
+id: 5a6a9a1b-97d0-43d8-9dd7-3cdef056c3c3
+status: experimental
+description: |
+    Looking for suspicious command-line parameters is another solid indicator of malice. Certain 
+    red team and post-exploitation frameworks will spawn unique and unsigned binaries or commands 
+    remotely using the well known process call create command, and we’ve got a couple different 
+    detection methods that have alerted us to related activity over the years. Potentially 
+    suspicious WMI command switches include create, node:, process, and call. Of course, the 
+    maliciousness of these commands are context-specific, and therefore, the following may 
+    require tuning or generate high volumes of false positives. Part of the RedCanary 2024 Threat 
+    Detection Report.
+references:
+    - https://redcanary.com/threat-detection-report/techniques/windows-management-instrumentation/
+author: RedCanary, Sigma formatting by Micah Babinski
+date: 2024/03/21
+tags:
+    - attack.execution
+    - attack.t1047
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        Image|endswith: '\wmic.exe'
+        CommandLine|contains:
+            - 'create'
+            - 'node:'
+            - 'process'
+            - 'call'
+    condition: selection
+falsepositives:
+    - Unknown
+level: low

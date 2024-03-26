@@ -1,0 +1,34 @@
+title: Unusual Module Loads - WMI
+id: b62ec77f-8014-42be-9874-c155f9ce6fae
+status: experimental
+description: |
+    By monitoring and detecting on module loads, you can catch a variety of different malicious 
+    activities, including defense evasion and credential theft. In cases where an adversary is 
+    using WMI for credential theft, consider looking for the execution of wmiprvse.exe (or its 
+    child processes) with unusual module loads like samlib.dll or vaultcli.dll. WMI is also a 
+    useful vehicle for bypassing application controls, and we commonly see adversaries—real and 
+    simulated–using a WMI bypass method called “SquibblyTwo.” The following pseudo-detection 
+    analytic is designed specifically to catch application control bypasses, but you can likely 
+    adapt it to detect other threats by substituting in a different DLL or by removing the command. 
+    Part of the RedCanary 2024 Threat Detection Report.
+references:
+    - https://redcanary.com/threat-detection-report/techniques/windows-management-instrumentation/
+author: RedCanary, Sigma formatting by Micah Babinski
+date: 2024/03/21
+tags:
+    - attack.execution
+    - attack.t1047
+logsource:
+    category: image_load
+    product: windows
+detection:
+    selection:
+        Image|endswith: '\wmic.exe'
+        CommandLine|contains: 'format:' # this field may not be available
+        ImageLoaded|contains:
+            - 'jscript.dll'
+            - 'vbscript.dll'
+    condition: selection
+falsepositives:
+    - Unknown
+level: low

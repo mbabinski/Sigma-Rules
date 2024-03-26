@@ -1,0 +1,34 @@
+title: Wmiexec.py Execution
+id: 2968dbf6-77ee-4932-b42b-b453d3ac8915
+status: experimental
+description: |
+    This detection analytic looks for wmiprvse.exe spawn cmd.exe with the following command line, 
+    `cmd.exe /Q /c ', ' 1 \\', ' 2 &1`. These strings are specific to the execution of wmiexe.py, 
+    which allows a semi-interactive shell used via WMI. Part of the RedCanary 2024 Threat Detection 
+    Report.
+references:
+    - https://redcanary.com/threat-detection-report/threats/impacket/
+author: RedCanary, Sigma formatting by Micah Babinski
+date: 2024/03/21
+tags:
+    - attack.s0357
+    - attack.execution
+    - attack.t1047
+    - attack.lateral_movement
+    - attack.t1021
+    - attack.t1021.003
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        ParentImage|endswith: '\wmiprvse.exe'
+        Image|endswith: '\cmd.exe'
+        CommandLine|contains:
+            - 'cmd.exe /Q /c '
+            - ' 1> \\'
+            - ' 2>&1'
+    condition: selection
+falsepositives:
+    - Unknown
+level: low

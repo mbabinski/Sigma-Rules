@@ -1,0 +1,33 @@
+title: Suspicious Process Lineage - WMI
+id: 75e6bb57-d135-4308-b0ac-936e2d76d4d5
+status: experimental
+description: |
+    In general, trusted binaries and known administrative tools and processes will initiate WMI 
+    activity. As such, it makes sense to look for known bad processes launching WMI or deviations 
+    from the expected where a legitimate but unusual Windows binary spawns WMI—or spawns from it. 
+    The following is an amalgamation of several analytics that can detect a wide array of threats, 
+    ranging from red team activity to web shells to coinminers. Part of the RedCanary 2024 Threat 
+    Detection Report.
+references:
+    - https://redcanary.com/threat-detection-report/techniques/windows-management-instrumentation/
+author: RedCanary, Sigma formatting by Micah Babinski
+date: 2024/03/21
+tags:
+    - attack.execution
+    - attack.t1047
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        ParentImage|endswith: '\wmiprvse.exe'
+        Image|endswith:
+            - '\rundll32.exe'
+            - '\msbuild.exe'
+            - '\powershell.exe'
+            - '\cmd.exe'
+            - '\mshta.exe'
+    condition: selection
+falsepositives:
+    - Unknown
+level: low

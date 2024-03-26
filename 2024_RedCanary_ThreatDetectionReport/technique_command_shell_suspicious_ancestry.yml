@@ -1,0 +1,39 @@
+title: Unusual or Suspicious Process Ancestry - Command Shell
+id: 64d04088-5ed5-4125-9219-4bbedec13e9f
+status: experimental
+description: |
+    We have a lot of detection analytics that seek out suspicious or unusual process 
+    lineage spawning or spawning from cmd.exe. Many of them don’t often generate confirmed 
+    threat detections but can occasionally raise the flag on important threats, like 
+    Exchange compromises. One semi-common pattern in our library of analytics is suspicious 
+    process interactions between the Windows IIS worker process (w3wp.exe) and the command 
+    shell. The following amalgamation of analytics might help you detect a diverse array of 
+    malicious activity related to web server compromises. Part of the RedCanary 2024 Threat 
+    Detection Report.
+references:
+    - https://redcanary.com/threat-detection-report/techniques/windows-command-shell/
+author: RedCanary, Sigma formatting by Micah Babinski
+date: 2024/03/21
+tags:
+    - attack.execution
+    - attack.t1059
+    - attack.t1059.003
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        # note: the 'GrantParentImage' field is not a legit field in a Sigma rule, as it is based
+        # on sysmon. However, using some log sources like Microsoft Defender for Endpoint you can 
+        # filter for InitiatingProcessParentFileName == "w3wp.exe" to achieve this type of query.
+        # GrantParentImage|endswith: '\w3wp.exe'
+        ParentImage|endswith: '\cmd.exe'
+        ParentCommandLine|contains:
+            - 'http://'
+            - 'https://'
+            - 'echo'
+        Image|endswith: '\powershell.exe'
+    condition: selection
+falsepositives:
+    - Unknown
+level: low

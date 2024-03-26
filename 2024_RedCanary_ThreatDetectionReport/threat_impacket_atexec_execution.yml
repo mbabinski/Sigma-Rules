@@ -1,0 +1,38 @@
+title: Atexec.py Execution
+id: 317bdc3b-f4a6-4664-b810-6dffb18fc7f5
+status: experimental
+description: |
+    This detection analytic identifies Impacket’s atexec.py script on a target host. atexec.py is remotely run 
+    on an adversary’s machine to execute commands on the victim via scheduled task. The command is commonly 
+    executed by a non-interactive cmd.exe with the output redirected to an eight-character TMP file. Part of 
+    the RedCanary 2024 Threat Detection Report.
+references:
+    - https://redcanary.com/threat-detection-report/threats/impacket/
+author: RedCanary, Sigma formatting by Micah Babinski
+date: 2024/03/21
+tags:
+    - attack.s0357
+    - attack.execution
+    - attack.t1053
+    - attack.t1053.002
+logsource:
+    category: file_event
+    product: windows
+detection:
+    selection:
+        ParentImage|endswith:
+            - '\svchost.exe'
+            - '\taskeng.exe'
+        CommandLine|contains|all:
+            - 'cmd.exe'
+            - '/c'
+            - 'windows\temp'
+            - ' > '
+            - '2>&1'
+        TargetFilename|contains|all:
+            - 'windows\temp'
+            - '.tmp'
+    condition: selection
+falsepositives:
+    - Unknown
+level: low

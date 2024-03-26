@@ -1,0 +1,31 @@
+title: WMI Reconnaissance
+id: 8a450075-e74f-4b19-9efa-b62a53f85bf8
+status: experimental
+description: |
+    Reconnaissance is harder to detect because it looks very similar to normal admin behavior. 
+    Even so, we detect a relatively high volume of adversaries leveraging WMI to quickly gather 
+    domain information such as users, groups, or computers in the domain. The following may help 
+    you detect related activity. Part of the RedCanary 2024 Threat Detection Report.
+references:
+    - https://redcanary.com/threat-detection-report/techniques/windows-management-instrumentation/
+author: RedCanary, Sigma formatting by Micah Babinski
+date: 2024/03/21
+tags:
+    - attack.execution
+    - attack.t1047
+    - attack.discovery
+    - attack.t1087
+    - attack.t1087.002
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        Image|endswith: '\wmic.exe'
+        CommandLine|contains:
+            - '\ldap'
+            - 'ntdomain'
+    condition: selection
+falsepositives:
+    - Unknown
+level: low

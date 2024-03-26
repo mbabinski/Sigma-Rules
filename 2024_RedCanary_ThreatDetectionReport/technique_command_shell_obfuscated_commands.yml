@@ -1,0 +1,35 @@
+title: Obfuscated Commands - Command Shell
+id: b58b6c4b-0f79-407e-b2ab-76de16a6cd79
+status: experimental
+description: |
+    Detecting obfuscation in the command shell is relatively straightforward, but 
+    there are a lot of variations to consider when you’re developing detection 
+    coverage. Of course, the process you’re looking for will always be cmd.exe, 
+    but the corresponding command line can contain a variety of suspicious characters. 
+    The trick is finding the thresholds where the inclusion of obfuscation characters 
+    go from normal to anomalous (but benign) to suspicious enough to warrant alerting. 
+    The following pseudo-detection logic offers a good starting point for developing 
+    detection coverage for obfuscation in the command line. Part of the RedCanary 2024 
+    Threat Detection Report.
+references:
+    - https://redcanary.com/threat-detection-report/techniques/windows-command-shell/
+author: RedCanary, Sigma formatting by Micah Babinski
+date: 2024/03/21
+tags:
+    - attack.execution
+    - attack.t1059
+    - attack.t1059.003
+    - attack.defense_evasion
+    - attack.t1027
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        Image|endswith: '\cmd.exe'
+        # regex below looks for eight or more total instances of the suspicious characters
+        CommandLine|re: '^([^^=%![(; ]*[\^=%![(; ]){8,}[^^=%![(; ]*$'
+    condition: selection
+falsepositives:
+    - Unknown
+level: low

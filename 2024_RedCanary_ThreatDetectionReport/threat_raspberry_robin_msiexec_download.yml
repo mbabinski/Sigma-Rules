@@ -1,0 +1,34 @@
+title: Windows Installer (msiexec.exe) Downloading and Executing Packages
+id: 2b09f558-14dc-40ac-b962-66386b5785c1
+status: experimental
+description: |
+    To detect suspicious use of msiexec.exe by Raspberry Robin or other threats, 
+    it’s essential to take a look at the command line and the URL. Detecting 
+    msiexec.exe making outbound network connections to download and install packages 
+    in the command-line interface will give you the opportunity to examine the 
+    activity and determine if it’s malicious or not. Part of the RedCanary 2024 
+    Threat Detection Report.
+references:
+    - https://redcanary.com/threat-detection-report/threats/raspberry-robin/
+author: RedCanary, Sigma formatting by Micah Babinski
+date: 2024/03/21
+tags:
+    - attack.defense_evasion
+    - attack.t1218
+    - attack.t1218.007
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection1:
+        Image|endswith: '\msiexec'
+    selection2:
+        CommandLine|contains:
+            - 'http:'
+            - 'https:'
+    selection3:
+        CommandLine|contains|windash: '/q'
+    condition: all of selection*
+falsepositives:
+    - Unknown
+level: low

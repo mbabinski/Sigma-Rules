@@ -1,0 +1,34 @@
+title: Email Forwarding Rule - Suspicious Forwarding Criteria
+id: 7315f2c5-892c-4c18-bda4-b788ef9219a2
+status: experimental
+description: |
+    Detects the creation of email forwarding rules with suspicious strings indicating
+    forwarding criteria meant to steal sensitive information. Part of the RedCanary 
+    2024 Threat Detection Report.
+references:
+    - https://redcanary.com/threat-detection-report/techniques/email-forwarding-rule/
+author: RedCanary, Sigma formatting by Micah Babinski
+date: 2024/03/21
+tags:
+    - attack.collection
+    - attack.t1114
+    - attack.t1114.003
+logsource:
+    service: exchange
+    product: m365
+detection:
+    selection:
+        Workload: 'Exchange'
+        Operation:
+            - 'New-InboxRule'
+            - 'Set-InboxRule'
+        Parameters|contains:
+            - 'ACH'
+            - 'Invoice'
+            - 'Payroll'
+            - 'Password Reset'
+            - 'Login code'
+    condition: selection
+falsepositives:
+    - Unknown
+level: low

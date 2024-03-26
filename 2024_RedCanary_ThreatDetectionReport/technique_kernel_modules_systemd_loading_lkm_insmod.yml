@@ -1,0 +1,26 @@
+title: Systemd Loading a Linux Kernel Module Using insmod
+id: 6ec5eab7-03aa-4a6b-8562-012f3ddd2c64
+status: experimental
+description: |
+    Detects the systemd process running commands that would load a Linux Kernel Modules. Part 
+    of the RedCanary 2024 Threat Detection Report.
+references:
+    - https://redcanary.com/threat-detection-report/techniques/kernel-modules-and-extensions/
+author: RedCanary, Sigma formatting by Micah Babinski
+date: 2024/03/21
+tags:
+    - attack.persistence
+    - attack.privilege_escalation
+    - attack.t1547
+    - attack.t1547.006
+logsource:
+    product: linux
+    category: process_creation
+detection:
+    selection:
+        ParentImage|endswith: '/systemd'
+        Image|endswith: '/insmod'
+    condition: selection
+falsepositives:
+    - Unknown
+level: low

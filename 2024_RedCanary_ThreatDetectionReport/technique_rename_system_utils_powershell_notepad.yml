@@ -1,0 +1,25 @@
+title: Unexpected Internal Process Name
+id: a6d26b45-14ea-4ee0-901c-3aefc384d3c9
+status: experimental
+description: |
+    Detects instances where the powershell process is renamed to notepad for defense evasion. 
+    Part of the RedCanary 2024 Threat Detection Report.
+references:
+    - https://redcanary.com/threat-detection-report/techniques/rename-system-utilities/
+author: RedCanary, Sigma formatting by Micah Babinski
+date: 2024/03/21
+tags:
+    - attack.defense_evasion
+    - attack.t1036
+    - attack.t1036.003
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        Image|endswith: '\notepad.exe'
+        OriginalFileName: 'powershell.exe'
+    condition: selection
+falsepositives:
+    - Unknown
+level: low

@@ -1,0 +1,31 @@
+title: WMI Shadow Copy Deletion
+id: 1c078d3c-749c-40ce-9400-c2dbad604764
+status: experimental
+description: |
+    It’s not uncommon for ransomware operators to leverage WMI to delete volume shadows, 
+    significantly complicating the process for recovering access to encrypted systems and files. 
+    If you want to detect ransomware using WMI to delete shadow copies, consider looking for 
+    wmic.exe execution with command lines including shadowcopy or delete. Part of the RedCanary 
+    2024 Threat Detection Report.
+references:
+    - https://redcanary.com/threat-detection-report/techniques/windows-management-instrumentation/
+author: RedCanary, Sigma formatting by Micah Babinski
+date: 2024/03/21
+tags:
+    - attack.execution
+    - attack.t1047
+    - attack.impact
+    - attack.t1490
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        Image|endswith: '\wmic.exe'
+        CommandLine|contains:
+            - 'shadowcopy'
+            - 'delete'
+    condition: selection
+falsepositives:
+    - Unknown
+level: low

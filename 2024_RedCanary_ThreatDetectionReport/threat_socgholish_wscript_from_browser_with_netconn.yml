@@ -1,0 +1,43 @@
+title: WScript Spawned from a Browser Making External Network Connections
+id: 6d873a6b-2287-494a-a5c8-2dff432cfc09
+status: experimental
+description: |
+    While JavaScript is everywhere on the web, it is rather unusual for the browser to download 
+    a JavaScript file and execute it via the Windows Script Host (wscript.exe). When this 
+    downloaded script starts communicating with devices outside of your network, things get even 
+    more suspicious. That said, this detection analytic may be noisy in some environments, so be 
+    prepared to identify what scripts are normally run in this way to tune out the noise. Part of 
+    the RedCanary 2024 Threat Detection Report.
+references:
+    - https://redcanary.com/threat-detection-report/threats/socgholish/
+author: RedCanary, Sigma formatting by Micah Babinski
+date: 2024/03/21
+tags:
+    - attack.initial_access
+    - attack.t1189
+logsource:
+    category: network_connection
+    product: windows
+detection:
+    selection:
+        ParentImage|endswith:
+            - '\brave.exe'
+            - '\chrome.exe'
+            - '\msedge.exe'
+            - '\opera.exe'
+            - '\vivaldi.exe'
+        Image|endswith: '\wscript.exe'
+    filter_local_ips: # optional, if you want to remove results where the destination IP is a private or local address
+        DestinationIp|cidr:
+            - '127.0.0.0/8'
+            - '10.0.0.0/8'
+            - '172.16.0.0/12'
+            - '192.168.0.0/16'
+            - '169.254.0.0/16'
+            - '::1/128'  # IPv6 loopback
+            - 'fe80::/10'  # IPv6 link-local addresses
+            - 'fc00::/7'  # IPv6 private addresses
+    condition: selection and not filter_local_ips
+falsepositives:
+    - Unknown
+level: low

@@ -1,0 +1,28 @@
+title: CertUtil Downloading Malicious Binaries
+id: 95d670e1-ce19-4269-b101-e12a1bce7c41
+status: experimental
+description: |
+    Adversaries often bypass security controls by using the Windows Certificate 
+    Utility (certutil.exe) to download malicious code. In general, they leverage 
+    certutil.exe along with the -split command-line option. Part of the RedCanary 
+    2024 Threat Detection Report.
+references:
+    - https://redcanary.com/threat-detection-report/techniques/ingress-tool-transfer/
+author: RedCanary, Sigma formatting by Micah Babinski
+date: 2024/03/21
+tags:
+    - attack.command_and_control
+    - attack.t1105
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        Image|endswith: '\certutil.exe'
+        CommandLine|contains|all:
+            - 'urlcache'
+            - 'split'
+    condition: selection
+falsepositives:
+    - Unknown
+level: low

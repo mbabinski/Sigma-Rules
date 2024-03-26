@@ -1,0 +1,30 @@
+title: PowerShell Suspicious .NET Methods
+id: 016c4ee2-ca34-474b-bfdc-43e017a29b47
+status: experimental
+description: |
+    Detects the loading of suspicious .NET methods, seen in PowerShell script load content. This 
+    behavior is not limited to Yellow Cockatoo and can be applied universally for malicious 
+    PowerShell obfuscation attempts. Part of the RedCanary 2024 Threat Detection Report.
+references:
+    - https://redcanary.com/threat-detection-report/threats/yellow-cockatoo/
+author: RedCanary, Sigma formatting by Micah Babinski
+date: 2024/03/21
+tags:
+    - attack.defense_evasion
+    - attack.t1140
+    - attack.t1574
+    - attack.t1574.013
+logsource:
+    product: windows
+    category: ps_script
+    definition: 'Requirements: Script Block Logging must be enabled'
+detection:
+    selection:
+        ScriptBlockText|contains:
+            - 'aescryptoserviceprovider'
+            - 'frombase64string'
+            - 'user32.dll'
+    condition: selection
+falsepositives:
+    - Unknown
+level: low

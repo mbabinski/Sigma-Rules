@@ -1,0 +1,28 @@
+title: In-memory Downloading and Compiling of Applets as Payloads
+id: 75933b00-4949-4cf0-a0e0-f234c3ff1407
+status: experimental
+description: |
+    This analytic uses a single ES_EVENT_TYPE_NOTIFY_EXEC event and looks for 
+    the the execution of curl, |, or osacompile commands. Part of the RedCanary 
+    2024 Threat Detection Report.
+references:
+    - https://redcanary.com/threat-detection-report/techniques/applescript/
+author: RedCanary, Sigma formatting by Micah Babinski
+date: 2024/03/21
+tags:
+    - attack.execution
+    - attack.t1059
+    - attack.t1059.002
+logsource:
+    product: macos
+    category: process_creation
+detection:
+    selection:
+        CommandLine|contains|all:
+            - 'osascript'
+            - '|'
+            - 'curl'
+    condition: selection
+falsepositives:
+    - Unknown
+level: low

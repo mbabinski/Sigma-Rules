@@ -1,0 +1,28 @@
+title: Kerberos .kirbi Ticket Files
+id: 8132d811-8314-40bc-9bb0-4bcdc33605e9
+status: experimental
+description: |
+    Kerberos ticket files (.kirbi) are of interest to adversaries as they can 
+    contain sensitive data such as NTLM hashes that can be cracked offline. To 
+    perform these attacks, a unique file extension variable is defined within 
+    Mimikatz that designates the default extension as .kirbi. Part of the 
+    RedCanary 2024 Threat Detection Report.
+references:
+    - https://redcanary.com/threat-detection-report/threats/impacket/
+author: RedCanary, Sigma formatting by Micah Babinski
+date: 2024/03/21
+tags:
+    - attack.s0002
+    - attack.credential_access
+    - attack.t1558
+    - attack.t1558.003
+logsource:
+    category: file_event
+    product: windows
+detection:
+    selection:
+        TargetFilename|endswith: '.kirbi'
+    condition: selection
+falsepositives:
+    - Unknown
+level: low

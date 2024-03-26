@@ -1,0 +1,30 @@
+title: Certreq Downloading Malicious Binaries
+id: da4eca65-03c5-497a-a8f0-d4b0534a5c53
+status: experimental
+description: |
+    Just like certutil, certreq can also be abused by adversaries to download and 
+    upload data. The following analytic will look for the execution of certreq.exe 
+    with command options that suggest a file is being downloaded. Part of the 
+    RedCanary 2024 Threat Detection Report.
+references:
+    - https://redcanary.com/threat-detection-report/techniques/ingress-tool-transfer/
+author: RedCanary, Sigma formatting by Micah Babinski
+date: 2024/03/21
+tags:
+    - attack.command_and_control
+    - attack.t1105
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        Image|endswith: '\certreq.exe'
+        CommandLine|contains:
+            - '-post'
+            - '-config'
+            - 'http'
+            - 'get'
+    condition: selection
+falsepositives:
+    - Unknown
+level: low

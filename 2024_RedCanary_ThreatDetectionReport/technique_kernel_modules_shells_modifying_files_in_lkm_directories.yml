@@ -1,0 +1,36 @@
+title: Shells Modifying Files in Known Linux Kernel Modules Directories
+id: 173fa93c-88ce-4d3f-89de-cfc849a94821
+status: experimental
+description: |
+    Detects configuration files being written to specific directories that are searched when 
+    looking for loadable Linux Kernel Modules (LKM). Part of the RedCanary 2024 Threat Detection 
+    Report.
+references:
+    - https://redcanary.com/threat-detection-report/techniques/kernel-modules-and-extensions/
+author: RedCanary, Sigma formatting by Micah Babinski
+date: 2024/03/21
+tags:
+    - attack.persistence
+    - attack.privilege_escalation
+    - attack.t1547
+    - attack.t1547.006
+logsource:
+    product: linux
+    category: file_event
+detection:
+    selection:
+        Image|endswith:
+            - '/bash'
+            - '/sh'
+            - '/dash'
+            - '/zsh'
+        TargetFilename|contains:
+            - '/lib/modules/*/'
+            - '/etc/modules-load.d/'
+            - '/lib/modules-load.d/'
+            - '/usr/lib/modules-load.d/'
+            - '/usr/local/lib/modules-load.d/'
+    condition: selection
+falsepositives:
+    - Unknown
+level: low

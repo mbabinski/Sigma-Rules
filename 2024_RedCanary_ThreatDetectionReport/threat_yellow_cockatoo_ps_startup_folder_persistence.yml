@@ -1,0 +1,31 @@
+title: PowerShell Startup Folder Persistence
+id: 07fce851-4cab-4ea5-880c-daf9d18bb180
+status: experimental
+description: |
+    Yellow Cockatoo Windows Startup folder for persistence. Not unique to Yellow Cockatoo, 
+    this detection opportunity is likely to identify persistence mechanisms in multiple 
+    threats. In the context of Yellow Cockatoo, this persistence mechanism eventually 
+    launches the command-line script that leads to the installation of a malicious DLL. Part 
+    of the RedCanary 2024 Threat Detection Report.
+references:
+    - https://redcanary.com/threat-detection-report/threats/yellow-cockatoo/
+author: RedCanary, Sigma formatting by Micah Babinski
+date: 2024/03/21
+tags:
+    - attack.persistence
+    - attack.privilege_escalation
+    - attack.t1547
+    - attack.t1547.001
+logsource:
+    category: file_event
+    product: windows
+detection:
+    selection1:
+        Image|endswith: '\powershell.exe'
+        TargetFilename|endswith: '.lnk'
+    selection2:
+        TargetFilename|contains: 'start menu\programs\startup'
+    condition: all of selection*
+falsepositives:
+    - Unknown
+level: low

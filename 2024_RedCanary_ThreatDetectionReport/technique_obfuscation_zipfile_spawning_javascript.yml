@@ -1,0 +1,29 @@
+title: ZIP File Spawning JavaScript
+id: b99b32f3-aa61-495d-a6a1-2595e1551ba8
+status: experimental
+description: |
+    RedCanary detected high volumes of obfuscation this year looking for apparent phishing 
+    schemes where adversaries conceal JavaScript payloads in ZIP files and write them 
+    to the users and temp directories. Part of the RedCanary 2024 Threat Detection Report.
+references:
+    - https://redcanary.com/threat-detection-report/techniques/obfuscated-files-information/
+author: RedCanary, Sigma formatting by Micah Babinski
+date: 2024/03/21
+tags:
+    - attack.defense_evasion
+    - attack.t1027
+logsource:
+    category: network_connection
+    product: windows
+detection:
+    selection:
+        Image|endswith: '\wscript.exe'
+        CommandLine|contains|all:
+            - 'users'
+            - 'temp'
+            - '.zip'
+            - '.js'
+    condition: selection
+falsepositives:
+    - Unknown
+level: low
