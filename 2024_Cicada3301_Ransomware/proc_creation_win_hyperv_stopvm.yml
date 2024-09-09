@@ -1,0 +1,33 @@
+title: Hyper-V Virtual Machine Discovery Shutdown via Powershell Cmdlets
+id: d42df972-2f45-44b0-8566-3de71b9ed3e9
+status: experimental
+description: Detects powershell process used to find and shut down local Hyper-V VMs using the Stop-VM cmdlet, as documented in the 2024 Morphisec report on Cicada3301 ransomware.
+references:
+    - https://blog.morphisec.com/cicada3301-ransomware-threat-analysis
+related:
+  - id: 42d36aa1-3240-4db0-8257-e0118dcdd9cd # Suspicious Hyper-V Cmdlets - SigmaHQ/frack113
+    type: derived
+author: 'Micah Babinski, Based on Morphisec report by Michael Gorelik (@smgoreli)'
+date: 2024-09-07
+tags:
+    - attack.defense-evasion
+    - attack.impact
+    - attack.t1578
+    - attack.t1578.003
+    - attack.t1529
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection_img:
+        - Image|endswith: '\powershell.exe'
+        - OriginalFileName: 'powershell.exe'
+    selection_cmd:
+        CommandLine|contains|all:
+            - 'Get-VM'
+            - 'Stop-VM'
+            - '-Force'
+    condition: all of selection_*
+falsepositives:
+    - Unknown
+level: medium

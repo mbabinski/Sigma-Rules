@@ -1,0 +1,37 @@
+title: Cicada3301 Ransomware Execution via PSExec
+id: 79495647-d84d-4804-9a52-5263cfdf2c63
+status: experimental
+description: |
+    Detects the use of a potentially-renamed psexec to run the Cicada3301 ransomware tool.
+references:
+    - https://engage.morphisec.com/threat-analysis-cicada3301
+author: 'Micah Babinski, Based on Morphisec report by Michael Gorelik (@smgoreli)'
+date: 2024-09-08
+tags:
+    - attack.execution
+    - attack.t1569
+    - attack.t1569.002
+    - attack.s0029
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection_1:
+        - Image|endswith: '\psexec0.exe'
+        - OriginalFileName: 'psexec.c'
+    selection_2:
+        CommandLine|contains:
+            - '--key'
+            - '--path'
+            - '-p '
+            - '-s '
+            - '--no_local'
+            - '--no_net'
+            - '--no_impl'
+            - '--no_notes'
+    filter:
+        Image|endswith: '\psexec.exe'
+    condition: all of selection_* and not filter
+falsepositives:
+    - Unknown
+level: high

@@ -1,0 +1,30 @@
+title: IISReset Used to Stop IIS Services
+id: 3a56827c-353e-4e86-b429-674abae37f32
+status: experimental
+description: |
+    Detects the use of the iisreset.exe utility to stop IIS web services. This is used to prevent users 
+    from accessing IIS web resources, thereby releasing/preventing locks which could inhibit 
+    ransomware-related encryption.
+references:
+    - https://engage.morphisec.com/threat-analysis-cicada3301
+author: 'Micah Babinski, Based on Morphisec report by Michael Gorelik (@smgoreli)'
+date: 2024-09-07
+tags:
+    - attack.impact
+    - attack.defense-evasion
+    - attack.t1562
+    - attack.t1562.001
+    - attack.t1529
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection_1:
+        - Image|endswith: '\iisreset.exe'
+        - OriginalFileName: 'iisreset.exe.mui'
+    selection_2:
+        CommandLine|contains: '/stop'
+    condition: all of selection_*
+falsepositives:
+    - Legitimate use
+level: medium
