@@ -1,0 +1,105 @@
+title: Correlation - Mass Service Stoppage Associated with Cicada3301 Ransomware
+id: 6039c5a5-d765-424c-b30d-cb391c9f76de
+status: experimental
+description: 'Detects repeated "service entered the stopped state" events, where numerous services are stopped as documented in the 2024 Morphisec Cicada3301 ransomware report.'
+references:
+    - https://blog.morphisec.com/cicada3301-ransomware-threat-analysis
+author: 'Micah Babinski, Based on Morphisec report by Michael Gorelik (@smgoreli)'
+date: 2024-09-07
+tags:
+    - attack.impact
+    - attack.t1489
+correlation:
+    type: event_count
+    rules:
+        - important_service_stopped
+    group-by:
+        - Computer
+    timespan: 10m
+    condition:
+        gte: 5
+level: medium
+---
+title: Single Service Stoppage Associated with Cicada3301 Ransomware
+name: important_service_stopped
+id: ac3c528e-b4b5-4ea2-81bb-14385d104416
+status: experimental
+description: 'Detects a single "service entered the stopped state" events, where numerous services are stopped as documented in the 2024 Morphisec Cicada3301 ransomware report.'
+author: 'Micah Babinski, Based on Morphisec report by Michael Gorelik (@smgoreli)'
+date: 2024-09-07
+tags:
+    - attack.impact
+    - attack.t1489
+logsource:
+    product: windows
+    service: system
+detection:
+    selection:
+        EventID: 7036
+        Provider_Name: 'Service Control Manager'
+        param1:
+            - 'mepocs'
+            - 'PDVFSService'
+            - 'GxFWD'
+            - 'MVarmor64'
+            - 'memtas'
+            - 'BackupExecVSSProvider'
+            - 'SAPService'
+            - 'VSNAPVSS'
+            - 'veeam'
+            - 'BackupExecAgentAccelerator'
+            - 'SAP'
+            - 'AcrSch2Svc'
+            - 'svc$'
+            - 'BackupExecAgentBrowser'
+            - 'SAP$'
+            - 'DefWatch'
+            - 'backup'
+            - 'BackupExecDiveciMediaService'
+            - 'SAPD$'
+            - 'ccEvtMgr'
+            - 'sql'
+            - 'BackupExecJobEngine'
+            - 'SAPHostControl'
+            - 'ccSetMgr'
+            - 'vss'
+            - 'BackupExecManagerService'
+            - 'SAPHostExec'
+            - 'SavRoam'
+            - 'msexchange'
+            - 'BackupExecRPCService'
+            - 'QBCFMonitorService'
+            - 'RTVscan'
+            - 'sql$'
+            - 'GxBlr'
+            - 'QBDBMgrN'
+            - 'QBFCService'
+            - 'mysql'
+            - 'GxVss'
+            - 'QBIDPService'
+            - 'Intuit.QuickBooks.FCS'
+            - 'mysql$'
+            - 'GxCIMgr'
+            - 'AcronisAgent'
+            - 'zhudongfangyu'
+            - 'sophos'
+            - 'GxCIMgrS'
+            - 'VeeamNFSSvc'
+            - 'stc_raw_agent'
+            - 'MSExchange'
+            - 'GxCVD'
+            - 'VeeamDeploymentService'
+            - 'BackupExecManagementService'
+            - 'MSExchange$'
+            - 'GXMMM'
+            - 'VeeamTransportSvc'
+            - 'CASAD2DWebSvc'
+            - 'WSBExchange'
+            - 'GxVssHWProv'
+            - 'MVArmor'
+            - 'CAARCUpdateSvc' 
+        param2: 'stopped'
+    condition: selection
+falsepositives:
+    - Unknown
+level: informational
